@@ -1,0 +1,31 @@
+{% extends "base_list.html" %}
+
+{% block title %}Contest{% endblock %}
+
+{% block navbar %}{% include "include/navbar-contest.html" %}{% endblock %}
+
+{% block list %}
+    <tr>
+        <th>Name</th>
+        <th>StartTime</th>
+        <th>Duration</th>
+        <th>Problems</th>
+        <th>User</th>
+    </tr>
+    {% for item in list %}
+        <tr>
+            <th><a href="/contest/{{ item.id }}">{{ item.name }}</a></th>
+            <th>{{ item.start_time | date:"Y-m-d H:i:s" }}</th>
+            <th>{{ item.duration_time}}</th>
+            <th>{{ item.problems.count}}</th>
+            <th>{{ item.uid.username}}</th>
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block page %}
+    <ul class="pagination">
+        {% for id in page %}
+        <li><a class="{% if pg == id %}active{% else %}disabled{% endif %}" href="/contest?pg={{ id }}">{{ id }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
