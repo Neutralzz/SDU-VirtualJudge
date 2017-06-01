@@ -32,6 +32,13 @@ class Problem(models.Model):
     def __str__(self):
         return self.title
 
+    def accepted(self):
+        query = Status.objects.filter(pro_id=self, result= 'Accepted')
+        return query.count()
+
+    def submitted(self):
+        query = Status.objects.filter(pro_id=self)
+        return query.count()
     # class Meta:
     #     managed = True
     #     #db_table = 'problem'

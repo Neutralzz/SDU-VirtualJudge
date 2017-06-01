@@ -136,14 +136,16 @@ def function():
 def problem(req):
     pg = int(req.GET.get('pg', 1))
     search = req.GET.get('search', "")
-    """
+    originoj= req.POST.get('originoj',"")
+    problemid=req.POST.get('problemid',"")
+    title=req.POST.get('title',"")
     if search:
-        qs = Problem.objects.filter(visible=True).filter(numberOfContest=0).filter(Q(id__icontains=search) | Q(title__icontains=search))
-        # .select_related("uid__name").filter(uid__contains=search)
+        qs = Problem.objects.filter(Q(proid__icontains=search) | Q(title__icontains=search))
+    elif originoj or problemid or title:
+        qs = Problem.objects.filter(Q(originoj__icontains=originoj) & Q(problemid__icontains=problemid) & Q(title__icontains=title))
     else:
-        qs = Problem.objects.filter(visible=True).filter(numberOfContest=0).all()
-    """
-    qs=Problem.objects.all();
+        qs = Problem.objects.all()
+
     idxstart = (pg - 1) * LIST_NUMBER_EVERY_PAGE
     idxend = pg * LIST_NUMBER_EVERY_PAGE
 
@@ -174,8 +176,8 @@ def problem(req):
 #        print(aclst)
 #        print('trylst')
 #        print(trylst)
-
-    return ren2res("problem.html", req, {'pg': pg, 'page': list(range(start, end + 1)), 'list': lst, 'aclst':aclst, 'trylst':trylst})
+    return ren2res("problem.html", req, {'pg': pg, 'page': list(range(start, end + 1)), 'list': lst, 'aclst':aclst, 'trylst':trylst
+        ,'originoj':originoj ,'problemid':problemid ,'title':title })
 
 
 #db = pymysql.connect("211.87.227.207","vj","vDpAZE74bJrYahZKmcvZxwc","vj")
@@ -356,7 +358,7 @@ def contest_get_problem(req, cid):
         t = loader.get_template('contest/contest_problem.html')
         problem = Problem.objects.get(proid=pid)
         if contest.private:
-            if req.user.info not in contest.accounts.all():
+            if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                 problem = []
         content_html = t.render(Context({'problem': problem, 'user' : req.user}))
         return HttpResponse(content_html)
@@ -369,7 +371,7 @@ def contest_status(req, cid):#has understood
         t = loader.get_template('contest/contest_status.html')
         status_list = Status.objects.filter(cid=cid).order_by('-time')#need change
         if contest.private:
-            if req.user.info not in contest.accounts.all():
+            if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                 status_list = []
         pg = req.GET.get('pg')
         if not pg:
@@ -398,7 +400,7 @@ def contest_submit(req, cid):
         finish = False
 
     if contest.private:
-        if req.user.info not in contest.accounts.all():
+        if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
             return HttpResponseRedirect("/contest/" + cid + "/")
 
     if req.method == 'GET':
@@ -450,7 +452,7 @@ def contest_rank(req, cid):
     if req.is_ajax():
         contest = Contest.objects.get(id = cid)
         if contest.private:
-            if req.user.info not in contest.accounts.all():
+            if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                 return JsonResponse("{}")
         rank_cache = contest.rank
         # print("rank_cache:")

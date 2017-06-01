@@ -5,33 +5,66 @@
 {% block navbar %}{% include "include/navbar-problem.html" %}{% endblock %}
 
 {% block list %}
-<col width="10%" />
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $("#pro_table").submit(function()
+    {
+        var originoj = $("#originoj").val();
+        var problemid = $("#problemid").val();
+        var title = $("#title").val()
+        $(this).ajaxSubmit({
+            type:"post",  //提交方式
+            dataType:"text", //数据类型
+            url:"/problem/", //请求url
+            data: $('#pro_table').serialize(),
+            success:function(data){ //提交成功的回调函数
+                //loadNewContents()
+                //$("#originoj").val("");
+                //$("#problemid").val("");
+                //$("#title").val("");
+            }
+        });
+        return true; //不刷新页面
+    });
+})
+</script>
+
+<col width="12%" />
+<col width="12%" />
 <col width="40%" />
-<col width="18%" />
 <col width="12%" />
 <col width="20%" />
+
+<form id="pro_table" method="post">
+{% csrf_token %}
 <tr>
-    <th><center>ID</center></th>
-    <th><center>Title</center></th>
+    <th><center>OJ <input class="form-control" type="text" id="originoj" style="width:60px;" name="originoj" value="{{originoj}}"></center></th>
+    <th><center>Pro_ID <input class="form-control" type="text" id="problemid" style="width:60px;" name="problemid" value="{{problemid}}"></center></th>
+    <th><center>Title <input class="form-control" type="text" id="title" style="width:350px;" name="title" value="{{title}}"></center> </th>
+    <input type="submit" style="display:none" ></input> 
     <th><center>Accepted/Submit</center></th>
-    <th><center>Author</center></th>
     <th><center>Upload</center></th>
 </tr>
+
 {% for item in list %}
 <tr>
+    <th><center>{{ item.originoj }}</center></th>
     {%if item.proid in aclst%}
-	<th><center><font color="#008000">{{item.proid}}</font></center></th>
+	<th><center><font color="#008000">{{item.problemid}}</font></center></th>
     {%elif item.proid in trylst%}
-	<th><center><font color="#FFA500">{{item.proid}}</font></center></th>
+	<th><center><font color="#FFA500">{{item.problemid}}</font></center></th>
     {%else%}
-	<th><center>{{item.proid}}</center></th>
+	<th><center>{{item.problemid}}</center></th>
     {%endif%}
     <th><center><a href="/problem/{{ item.proid }}">{{ item.title }}</a></center></th>
     <th><center><a href="/status?pid={{ item.proid }}">{{ item.accepted }}/{{ item.submitted }}</a></center></th>
-    <th><center>{{ item.originoj }}</center></th>
     <th><center>{{ item.updatetime | date:"Y-m-d" }}</center></th>
 </tr>
 {% endfor %}
+
+</form>
 {% endblock %}
 {% block page %}
     <ul class="pagination">
@@ -40,3 +73,4 @@
         {% endfor %}
     </ul>
 {% endblock %}
+

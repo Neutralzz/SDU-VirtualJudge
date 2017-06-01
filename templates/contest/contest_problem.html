@@ -26,15 +26,15 @@ pre{
 <div class="text-center">
     <h1 class="text-success">{{ problem.title }}</h1>
     <ul class="list-inline">
-        <li>Time Limit: {{ problem.limit_time }}s</li>
+        <li>Time Limit: {{ problem.timelimit }}s</li>
         &nbsp;&nbsp;
-        <li>Memory Limit: {{ problem.limit_memory|filesizeformat }}</li>
+        <li>Memory Limit: {{ problem.memorylimit|filesizeformat }}</li>
     </ul>
 </div>
 
 <h3 class="text-info" >Description</h3>
 {% autoescape off %}
-<pre>{{ problem.content }}</pre>
+<pre>{{ problem.description }}</pre>
 
 <h3 class="text-info" >Input</h3>
 <pre>{{ problem.input }}</pre>
@@ -44,20 +44,16 @@ pre{
 
 {% endautoescape %}
 
-{% if problem.samples %}
-    {% for s in problem.samples %}
-        <h3 class="text-info" >Sample Input {{ forloop.counter }}</h3>
-        <pre>{{ s.input }}</pre>
+<h3 class="text-info">Sample Input</h3>
+<pre>{{ problem.sampleinput }}</pre>
 
-        <h3 class="text-info" >Sample Output {{ forloop.counter }}</h3>
-        <pre>{{ s.output }}</pre>
-    {% endfor %}
-{% endif %}
+<h3 class="text-info">Sample Output</h3>
+<pre>{{ problem.sampleoutput }}</pre>
 
 {% autoescape off %}
 <h3 class="text-info" >Note</h3>
 <pre>{{ problem.note }}</pre>
 
 <h3 class="text-info" >Source</h3>
-<pre>{{ problem.source }}</pre>
+<pre>{{ problem.originoj }} {{ problem.problemid }}</pre>
 {% endautoescape %}
