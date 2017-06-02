@@ -360,9 +360,9 @@ def contest_get_problem(req, cid):
         if contest.private:
             if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                 problem = []
-        content_html = t.render(Context({'problem': problem, 'user' : req.user}))
-        return HttpResponse(content_html)
-
+        #content_html = t.render(Context({'problem': problem, 'user' : req.user}))
+        # return HttpResponse(content_html)
+        return render(req,'contest/contest_problem.html',{'problem': problem, 'user' : req.user})
 
 @login_required
 def contest_status(req, cid):#has understood

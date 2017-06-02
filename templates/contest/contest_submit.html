@@ -18,6 +18,7 @@ $(document).ready(function(){
 </br>
 
 <form class="form-horizontal container-fluid" action="submit/" method="POST" enctype="multipart/form-data" id="submit_form">
+    {% csrf_token %}
     <div class="form-group">
         <label>Language:</label>
         <select name="lang" class="form-control">
@@ -45,10 +46,10 @@ $(document).ready(function(){
         <label><input type="radio" id="selsrc" name="inputype" checked="checked">  Source Code:</label>
         <textarea id="srcarea" name="code" class="form-control" maxlength="65536" rows="24"></textarea>
     </div>
-    {% if user.sid %}
-    <button id="submit_button" class="btn btn-primary">Submit</button>
-    {% else %}
-    <!--    <button id="submit_button" class="btn btn-primary">Submit_</button>-->
-    <a href="/profile/" target="_blank">Update Your StudentID Before Submit</a>
-    {% endif %}
+    <!-- {% if user.sid %} -->
+        <!-- <button id="submit_button" class="btn btn-primary">Submit</button> -->
+    <!-- {% else %} -->
+        <button id="submit_button" class="btn btn-primary">Submit</button>
+    <!-- <a href="/profile/" target="_blank">Update Your StudentID Before Submit</a> -->
+    <!-- {% endif %} -->
 </form>
