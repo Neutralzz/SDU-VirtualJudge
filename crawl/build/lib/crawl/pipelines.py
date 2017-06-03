@@ -7,8 +7,61 @@
 
 from crawl.items import ProblemItem,StatusItem
 from vj.models import *
-import traceback
+import traceback,sys,re,urllib,os
+project_path = os.path.abspath('../..')
+sys.path.append(project_path)
 
+BASE_URL = {
+        'hdu':'http://acm.hdu.edu.cn/','HDU':'http://acm.hdu.edu.cn/',
+        'zoj':'http://acm.zju.edu.cn/onlinejudge/','ZOJ':'http://acm.zju.edu.cn/onlinejudge/',
+        'fzu':'http://acm.fzu.edu.cn/','FZU':'http://acm.fzu.edu.cn/',
+        }
+
+def hash(text):
+    res = 0
+    MOD = 512
+    for i in range(0,len(text)):
+        res = res*MOD + ord(text[i])
+    res = res%1000000000000009
+    return str(res)
+
+def processImg(text,baseURL):
+    print("processing image")
+    global project_path
+    imgre = re.compile(r'src="(.*?)"')
+    imglist = imgre.findall(text)
+    for imgurl in imglist:
+        print("img URL : %s"%imgurl)
+        prefix = 0
+        while imgurl[prefix]=='.' or imgurl[prefix]=='/':
+            prefix = prefix + 1
+        suff = len(imgurl)-1
+        while imgurl[suff]!='.':
+            suff = suff - 1
+        validURL = imgurl[prefix:]
+        imgName = '/static/img/problemimg/'+hash(baseURL+imgurl)+imgurl[suff:]
+        #imgName = '/static/img/problemimg/a.jpg'
+        print("new img name : %s"%imgName)
+        try:
+            urllib.request.urlretrieve(baseURL+validURL,project_path+('%s'%imgName))
+        except Exception as e:
+            print("save fail:",str(e))
+            pass
+        text = text.replace(imgurl,imgName)
+    return text
+
+def restoreSpecialChar(text):
+    return text.\
+            replace('<=', ' &le; ').\
+            replace(' < ', ' &lt; ').\
+            replace(' > ', ' &gt; ').\
+            replace('>=', ' &ge; ').\
+            replace(r'\n','\n').\
+            replace(r'\r','\r').\
+            replace(r'\t','\t').\
+            replace(r'\"','\"').\
+            replace(r'\'','\'')
+            
 
 class SolPipeline(object):
 
@@ -41,7 +94,8 @@ class SolPipeline(object):
             print('traceback.format_exc():\n%s' % traceback.format_exc())
 
     def processProblemItem(self,item):
-        need = ['desc','input','output']
+        global BASE_URL
+        need = ['desc','input','output','note']
         for k in need :
             str = item[k]
             L = 0
@@ -57,7 +111,7 @@ class SolPipeline(object):
                 else:
                     R-=1
             item[k] = str[L+1:R-1]
-
+        """
         for k in item.keys():
             str = ""
             for i in range(0,len(item[k])):
@@ -65,6 +119,10 @@ class SolPipeline(object):
                     str += '\\'
                 str += item[k][i]
             item[k] = str
+        """
+        for k in item.keys():
+            item[k] = restoreSpecialChar(item[k])
+            item[k] = processImg(item[k],BASE_URL[item['originOj']])
 
         try:
             try:

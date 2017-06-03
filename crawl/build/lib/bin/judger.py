@@ -50,13 +50,13 @@ class JudgerThread(threading.Thread):
         sub = False
         if submitMutex.acquire():
             submiter = None
-            if (self.OJ == "hdu") || (self.OJ == 'HDU'):
+            if (self.OJ == "hdu") or (self.OJ == 'HDU'):
                 spider = "hdu_status"
                 submiter = HduSubmiter(self.Prob,acc,self.Code,self.Lang)
-            elif (self.OJ == 'fzu' ) || (self.OJ == 'FZU'):
+            elif (self.OJ == 'fzu' ) or (self.OJ == 'FZU'):
                 spider = 'fzu_status'
                 submiter = FzuSubmiter(self.Prob,acc,self.Code,self.Lang)
-            elif (self.OJ == 'zoj' ) || (self.OJ == 'ZOJ'):
+            elif (self.OJ == 'zoj' ) or (self.OJ == 'ZOJ'):
                 spider = 'zoj_status'
                 submiter = ZojSubmiter(self.Prob,acc,self.Code,self.Lang)
             else:

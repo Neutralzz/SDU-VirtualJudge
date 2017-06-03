@@ -33,8 +33,8 @@ class HduStatusSpider(Spider):
                 #print("find item!!!!!!!!!!!!!")
                 item['result'] = tr.xpath('.//td').xpath('.//font/text()').extract()[0]
                 try:
-                    item['memoryc'] = tr.xpath('.//td')[4].xpath('./text()').extract()[0]
-                    item['timec'] = tr.xpath('.//td')[5].xpath('./text()').extract()[0]
+                    item['memoryc'] = tr.xpath('.//td')[5].xpath('./text()').extract()[0]
+                    item['timec'] = tr.xpath('.//td')[4].xpath('./text()').extract()[0]
                 except:
                     pass
                 #print("%s,%s,%s\n"%(item['result'],item['memoryc'],item['timec']))

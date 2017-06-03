@@ -1,18 +1,9 @@
-import scrapy
+import scrapy,re
 from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from datetime import datetime
 from crawl.items import ProblemItem
 from lxml import etree
-
-
-def restoreSpecialChar(text):
-    return text.replace('\\n','\n').\
-            replace('\\r','\r').\
-            replace('\\t','\t').\
-            replace('\\"','\"').\
-            replace(r'\'','')
-            
 
 
 class HduProblemSpider(Spider):
@@ -29,16 +20,7 @@ class HduProblemSpider(Spider):
 
     def parse(self, response):
         #print("11111111111111111",type(response.body))
-        html = str(response.body).\
-            replace('<=', ' &le; ').\
-            replace(' < ', ' &lt; ').\
-            replace(' > ', ' &gt; ').\
-            replace('>=', ' &ge; ')
-
-        html = restoreSpecialChar(html)
-            
-
-
+        html = str(response.body)
         sel = Selector(text=html)
 
         item = ProblemItem()
@@ -56,7 +38,7 @@ class HduProblemSpider(Spider):
         item['sampleInput'] = sel.xpath('//pre/div/text()').extract()[0]
         item['sampleOutput'] = sel.xpath('//pre/div/text()').extract()[1]
         item['updateTime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        Ls = sel.xpath('//pre/div/div/text()').extract()
+        Ls = sel.xpath('//pre/div/div').extract()
         item['note'] = ''
         if len(Ls) > 0:
             item['note'] = Ls[0]
@@ -77,16 +59,7 @@ class PojProblemSpider(Spider):
         ]
 
     def parse(self, response):
-        html = str(response.body).\
-            replace('<=', ' &le; ').\
-            replace(' < ', ' &lt; ').\
-            replace(' > ', ' &gt; ').\
-            replace('>=', ' &ge; ')
-
-        html = restoreSpecialChar(html)
-            
-
-
+        html = str(response.body)
         sel = Selector(text=html)
 
 
@@ -143,15 +116,8 @@ class ZojProblemSpider(Spider):
                 return text[i+2:]
 
     def parse(self,response):
-        html = str(response.body).\
-            replace('<=', ' &le; ').\
-            replace(' < ', ' &lt; ').\
-            replace(' > ', ' &gt; ').\
-            replace('>=', ' &ge; ')
-
-        html = restoreSpecialChar(html)
-
-        sel = Selector(response)
+        html = str(response.body)
+        sel = Selector(text=html)
 
         item = ProblemItem()
         item['originOj'] = 'ZOJ'
@@ -181,15 +147,7 @@ class FzuProblemSpider(Spider):
         ]
 
     def parse(self, response):
-        html = str(response.body).\
-            replace('<=', ' &le; ').\
-            replace(' < ', ' &lt; ').\
-            replace(' > ', ' &gt; ').\
-            replace('>=', ' &ge; ')
-
-        html = restoreSpecialChar(html)
-            
-
+        html = str(response.body)
         sel = Selector(text=html)
 
         item = ProblemItem()
