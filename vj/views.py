@@ -384,8 +384,9 @@ def contest_status(req, cid):#has understood
 
         lst = status_list[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
 
-        content_html = t.render(Context({'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user}))
-        return HttpResponse(content_html)
+        # content_html = t.render(Context({'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user}))
+        # return HttpResponse(content_html)
+        return render(req,'contest/contest_status.html',{'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user})
     else:
         raise Http404
 
@@ -393,7 +394,10 @@ def contest_status(req, cid):#has understood
 @login_required
 def contest_submit(req, cid):
     contest = Contest.objects.get(id=cid)
-    time = datetime.datetime.now(pytz.timezone(pytz.country_timezones('cn')[0]))
+    #time = datetime.datetime.now(pytz.timezone(pytz.country_timezones('cn')[0]))
+    # time1=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+    time=timezone.now()
+    # print(contest.start_time + contest.duration_time)
     if time > contest.start_time + contest.duration_time:
         finish = True
     else:
@@ -408,7 +412,10 @@ def contest_submit(req, cid):
     elif req.method == 'POST':
         pid = req.POST.get('pid')
         #need change start
-        sub = Status(pro=Problem.objects.get(proid=pid), user=req.user, lang=req.POST.get('lang'))
+        # sub = Status(pro=Problem.objects.get(proid=pid), user=req.user, lang=req.POST.get('lang'))
+        sub = Status(user=req.user, pro=Problem.objects.get(proid=pid), lang=req.POST.get('lang'), result='Waiting', 
+            time=time)
+
         if not finish:
             sub.cid = contest.id
         else:
@@ -421,10 +428,10 @@ def contest_submit(req, cid):
         else:
             return ren2res("contest/contest_submit.html", req,
                            {'contest': contest, 'problems': contest.get_problem_list(), 'err': 'No Submit!'})
-        sub.source_code.save(name=str(sub.id), content=content_file)
+        #sub.source_code.save(name=str(sub.runid), content=content_file)
         sub.save()
         #judger.Judger(sub)
-        result=judge_delay.delay(sub)
+        #result=judge_delay.delay(sub)
     if not finish:
         return HttpResponseRedirect("/contest/" + cid + "/")
     else:
@@ -457,7 +464,7 @@ def contest_rank(req, cid):
         rank_cache = contest.rank
         # print("rank_cache:")
         # print(rank_cache)
-        status_list = Status.objects.filter(cid = cid).filter(id__gt = contest.last_submit_id).order_by("time")
+        status_list = Status.objects.filter(cid = cid).filter(runid__gt = contest.last_submit_id).order_by("time")
         # print("status_list")
         # print(status_list)
         rank_dict = json.loads(rank_cache)
@@ -481,27 +488,27 @@ def contest_rank(req, cid):
                 pos += 1
 
         for item in status_list:
-            if item.uid.is_staff :
+            if item.user.is_staff :
                 continue
-            name = item.uid.username
-            contest.last_submit_id = max(contest.last_submit_id, item.id)
+            name = item.user.username
+            contest.last_submit_id = max(contest.last_submit_id, item.runid)
             if name not in rank_dict.keys():
                 rank_dict[name] = {"name" : name, "solved":0, "penalty":0, "probs" : [{"failNum" : 0, "acNum" : 0, "acTime" : 0} for i in range(length)]}
 
-            pos = statsinfo[item.pid.title]["pos"]
+            pos = statsinfo[item.pro.title]["pos"]
 
-            if item.status == 3: #Waiting
+            if item.result == 3: #Waiting
                 break
 
-            if item.status == 0: #Accepted
+            if item.result == 0: #Accepted
                 rank_dict["statsinfo"][pos]["acNum"] += 1
             rank_dict["statsinfo"][pos]["tryNum"] += 1
 
             if rank_dict[name]["probs"][pos]["acNum"] == 0:
-                if item.status == 0:
+                if item.result == 0:
                     rank_dict[name]["probs"][pos]["acNum"] += 1
-                    rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.time - contest.start_time, 1)
-                    rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
+                    rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.timec - contest.start_time, 1)
+                    rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.timec - contest.start_time, 0)
                     rank_dict[name]["solved"] += 1
                 else:
                     rank_dict[name]["probs"][pos]["failNum"] += 1

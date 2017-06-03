@@ -41,7 +41,7 @@
     		    <td><center>{{ item.result }}</center></td>
                 {% endifequal %}
             {% endifequal %}
-	    {% ifequal item.uid.id user.id %}
+	    {% ifequal item.user.id user.id %}
 		    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.lang }}</a></center></td>
 	    {% else %}
 		    {% ifequal user.is_staff True%}
