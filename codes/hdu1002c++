@@ -1,0 +1,124 @@
+#include<iostream>
+#include<string>
+#include<sstream>
+#include<cmath>
+using namespace std;
+std::stringstream stream;
+int main(){
+    int t;cin>>t;
+    for(int u=0;u<t;u++){
+            string a,b;
+            cin>>a>>b;
+            int alen = a.length();
+            int blen = b.length();
+            string s = "";
+            bool state = 0;
+            for(int i = 1; i <= max(alen,blen); i++){
+                    string temp ;
+                    if(alen - i < 0){
+                          if(state ==0){
+                            int n = b.at(blen - i) - '0';
+                            stream << n;
+                            stream >> temp; 
+                            stream.clear();
+                            stream.str();
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }       
+                       }
+                       else{
+                            int n =b.at(blen -i) - '0' + 1;
+                            stream << n;
+                            stream >> temp;
+                            stream.clear();
+                            stream.str();
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);     
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }
+                       }
+                    }         
+                    if(blen - i < 0){
+                         if(state ==0){
+                            int n = a.at(alen - i) -'0';
+                            stream << n;
+                            stream >> temp;
+                            stream.clear();
+                            stream.str(); 
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }       
+                       }
+                       else{
+                            int n = a.at(alen - i) -'0' + 1;
+                            stream << n;
+                            stream >> temp;
+                            stream.clear();
+                            stream.str();
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);     
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }
+                       }
+                    }
+                    if(alen-i>=0&&blen-i>=0){
+                       if(state ==0){
+                            int n = a.at(alen - i) + b.at(blen -i) - 2*'0';
+                            stream << n;
+                            stream >> temp;
+                            stream.clear();
+                            stream.str(); 
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }       
+                       }
+                       else{
+                            int n = a.at(alen - i) + b.at(blen -i) - 2*'0' + 1;
+                            stream << n;
+                            stream >> temp;
+                            stream.clear();
+                            stream.str();
+                            if(n > 9){
+                                 state = 1;
+                                 s += temp.at(1);     
+                            }
+                            else{
+                                 state = 0;
+                                 s += temp.at(0);
+                            }
+                       }
+                    }
+            }
+            if(state == 1) s += "1";
+            cout<<"Case "<<u+1<<":"<<endl;
+            cout<<a<<" + "<<b<<" = ";           
+            for(int i = s.length()-1;i>=0;i--)
+                    cout << s.at(i);
+            cout << endl;
+            if(u!=t-1) cout<<endl;
+    }
+    return 0;
+} 
