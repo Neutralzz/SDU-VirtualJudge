@@ -10,7 +10,16 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
-
+LANG_CHOICE = (
+    (0, 'G++'),
+    (1, 'GCC'),
+    (2, 'C++'),
+    (3, 'C'),
+    (4, 'Pascal'),
+    (5, 'Java'),
+    (6, 'C#'),
+    (7, 'Python'),
+)
 
 
 class Problem(models.Model):
@@ -116,7 +125,7 @@ class Status(models.Model):
     user = models.ForeignKey(User)
     pro = models.ForeignKey(Problem)
     source_code = models.FileField()
-    lang = models.IntegerField(blank=True, null=True)
+    lang = models.PositiveSmallIntegerField(choices=LANG_CHOICE)
     result = models.CharField(max_length=50)
     timec = models.CharField(max_length=50, blank=True, null=True)
     memoryc = models.CharField(max_length=50, blank=True, null=True)

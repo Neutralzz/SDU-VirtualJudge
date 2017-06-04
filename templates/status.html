@@ -5,15 +5,38 @@
 {% block navbar %}{% include "include/navbar-status.html" %}{% endblock %}
 
 {% block list %}
+<script type="text/javascript">
+$(document).ready(function() 
+{
+    $("#sta_table").submit(function()
+    {
+        $(this).ajaxSubmit({
+            type:"post",  //提交方式
+            dataType:"text", //数据类型
+            url:"/status/", //请求url
+            data: $('#sta_table').serialize(),
+            success:function(data){ //提交成功的回调函数
+            }
+        });
+        return true; //不刷新页面
+    });
+})
+</script>
+
+<form id="sta_table" method="post">
+{% csrf_token %}
     <tr>
-        <th><center>RunID</center></th>
-        <th><center>Problem</center></th>
-        <th><center>Status/Score</center></th>
-        <th><center>Language</center></th>
+        <th><center>RunID <input class="form-control" type="text" id="runid" style="width:70px;" name="runid" value="{{runid}}"></center></th>
+        <th><center>OriginOJ <input class="form-control" type="text" id="originoj" style="width:70px;" name="originoj" value="{{originoj}}"></center></th>
+        <th><center>ProblemID <input class="form-control" type="text" id="problemid" style="width:70px;" name="problemid" value="{{problemid}}"></center></th>
+        <th><center>Problem <input class="form-control" type="text" id="title" style="width:150px;" name="title" value="{{title}}"></center></th>
+        <th><center>Status/Score <input class="form-control" type="text" id="result" style="width:80px;" name="result" value="{{result}}"></center></th>
+        <th><center>Language <input class="form-control" type="text" id="lang" style="width:60px;" name="lang" value="{{lang}}"></center></th>
         <th><center>Time</center></th>
         <th><center>Memory</center></th>
-        <th><center>User</center></th>
+        <th><center>User <input class="form-control" type="text" id="uid" style="width:60px;" name="uid" value="{{uid}}"></center></th>
         <th><center>SubmitTime</center></th>
+        <input type="submit" style="display:none" ></input> 
     </tr>
     {% for item in list %}
         <tr
@@ -26,36 +49,39 @@
                     class="danger"
                 {% endifequal %}
          >
-	    <td><center>{{ item.runid }}</a></center></td>
+        <td><center>{{ item.runid }}</a></center></td>
+        <td><center>{{ item.pro.originoj }}</a></center></td>
+        <td><center>{{ item.pro.problemid }}</a></center></td>
             <td><center><a href="/problem/{{ item.pro.proid}}">{{ item.pro.title }}</a></center></td>
             {% ifequal item.pro.isCCF True %}
                  <td><center>{{ item.score }}</center></td>
-	        {% else %}
+            {% else %}
                 {% ifequal item.result "Compilation Error" %}
-    		      {% ifequal item.uid.id user.id %}
-    			    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_status_display }}</a></center></td>
-    		      {% else %}
-    			    <td><center>{{ item.result }}</center></td>
-    		      {% endifequal %}
+                  {% ifequal item.uid.id user.id %}
+                    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_status_display }}</a></center></td>
+                  {% else %}
+                    <td><center>{{ item.result }}</center></td>
+                  {% endifequal %}
                     {% else %}
-    		    <td><center>{{ item.result }}</center></td>
+                <td><center>{{ item.result }}</center></td>
                 {% endifequal %}
             {% endifequal %}
-	    {% ifequal item.user.id user.id %}
-		    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.lang }}</a></center></td>
-	    {% else %}
-		    {% ifequal user.is_staff True%}
-			    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.lang }}</a></center></td>
-		    {% else %}
-			    <td><center>{{ item.lang }}</center></td>
-		    {% endifequal %}
-	    {% endifequal %}
+        {% ifequal item.uid.id user.id %}
+            <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_lang_display }}</a></center></td>
+        {% else %}
+            {% ifequal user.is_staff True%}
+                <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_lang_display }}</a></center></td>
+            {% else %}
+                <td><center>{{ item.get_lang_display }}</center></td>
+            {% endifequal %}
+        {% endifequal %}
             <td><center>{{ item.timec }}ms</center></td>
             <td><center>{{ item.memoryc }}KB</center></td>
             <td><center>{{ item.user.username }}</center></td>
             <td><center>{{ item.time | date:"Y-m-d H:i:s" }}</center></td>
         </tr>
     {% endfor %}
+</form>
 {% endblock %}
 {% block page %}
     <ul class="pagination">

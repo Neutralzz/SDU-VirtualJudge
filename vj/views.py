@@ -219,8 +219,19 @@ def problem_submit(req, proid):
 
 def status(req):
     pro_id = req.GET.get('pro_id')
+
+    runid= req.POST.get('runid',"")
+    originoj= req.POST.get('originoj',"")
+    problemid= req.POST.get('problemid',"")
+    title= req.POST.get('title',"")
+    result= req.POST.get('result',"")
+    lang= req.POST.get('lang',"")
+    uid= req.POST.get('uid',"")
     if pro_id:
         query = Status.objects.filter(pro_id=pro_id).all().order_by('-runid')
+    elif runid or originoj or problemid or title or result or lang or uid:
+        query = Status.objects.filter(Q(runid__icontains=runid) & Q(pro__originoj__icontains=originoj) & Q(pro__problemid__icontains=problemid)
+            & Q(pro__title__icontains=title) & Q(result__icontains=result) & Q(lang__icontains=lang) & Q(user__username__icontains=uid) ).order_by('-runid')
     else:
         query = Status.objects.all().order_by('-runid')
 
@@ -242,7 +253,7 @@ def status(req):
     lst = query[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
     #print(len(lst))
 
-    return ren2res('status.html', req, {'pro_id': pro_id, 'page': range(start, end + 1), 'list': lst })
+    return ren2res('status.html', req, {'pro_id': pro_id, 'page': range(start, end + 1), 'list': lst , 'LANG_DICT':LANG_DICT})
 
 
 @login_required
