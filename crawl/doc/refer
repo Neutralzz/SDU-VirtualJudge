@@ -3,6 +3,8 @@ scrapyd must be openned on the project folder
 
 tools:
 http://www1.tc711.com/tool/BASE64.htm
+https://docs.djangoproject.com/en/1.7/ref/databases/
+https://docs.djangoproject.com/en/1.8/ref/models/querysets/
 
 blog:
 http://www.cnblogs.com/zhongtang/p/5634545.html

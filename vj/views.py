@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.template import Context, RequestContext, loader
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q,Max
 from django.core.files.base import ContentFile
 from vj.models import *
 from django.utils import timezone
@@ -18,7 +18,9 @@ import re
 import json
 import pymysql
 import time
-import base64
+import base64,os,sys
+project_path = os.path.abspath('.')
+sys.path.append(project_path)
 
 LIST_NUMBER_EVERY_PAGE = 20
 PAGE_NUMBER_EVERY_PAGE = 7
@@ -191,19 +193,23 @@ def problem_detail(req, proid):
 
 @login_required
 def problem_submit(req, proid):
+    global project_path
     if req.method == 'GET':
         return ren2res("problem/problem_submit.html", req, {'problem': Problem.objects.get(proid=proid)})
     elif req.method == 'POST':
-        status = Status(user=req.user, pro=Problem.objects.get(proid=proid), lang=req.POST.get('lang'), result='Waiting', 
-            time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+        status = Status(user=req.user, pro=Problem.objects.get(proid=proid), lang=req.POST.get('lang'), result='Waiting', \
+            cid=-1,time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+        temp = Status.objects.aggregate(maxRunid=Max('runid'))
+        status.source_code = str(temp['maxRunid']+1)
         if req.POST.get('code'):
-            # f = open('JudgeFiles/source/' + str(sub.id), 'w')
-            # f.write(req.POST.get('code'))
-            status.code = base64.b64encode(bytes(req.POST.get('code'), 'utf-8'))
+            f = open(project_path+'/codes/' + str(status.source_code), 'w')
+            f.write(req.POST.get('code'))
+            f.close()
+            #status.code = base64.b64encode(bytes(req.POST.get('code'), 'utf-8'))
         else:
             return ren2res("problem/problem_submit.html", req,
                            {'problem': Problem.objects.get(proid=proid), 'err': "No Submit!"})
-        # f.close()
+        
         status.save()
         #sub.source_code.save(name=str(sub.id), content=content_file)
         #sub.save()
