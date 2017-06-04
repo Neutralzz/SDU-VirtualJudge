@@ -30,7 +30,7 @@ Code = getCode('hdu1000')
 submiter = ZojSubmiter(Prob,acc,Code,'0')
 
 submiter.submit2OJ()
-"""
+
 
 
 
@@ -40,3 +40,16 @@ baseURL = 'http://127.0.0.1:6800/'
 delProUrl = baseURL + 'delproject.json'
 dictdata = {"project":"vjspider"}
 r = requests.post(delProUrl,data=dictdata)
+"""
+from updateProb2DB import *
+
+updateProb('ZOJ','1009')
+"""
+for i in range(0,10):
+    updateProb('HDU',str(1000+i))
+for i in range(0,10):
+    updateProb('FZU',str(1000+i))
+for i in range(0,10):
+    updateProb('ZOJ',str(1000+i))
+
+"""

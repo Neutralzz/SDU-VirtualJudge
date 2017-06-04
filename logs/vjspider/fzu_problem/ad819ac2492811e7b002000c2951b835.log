@@ -1,0 +1,102 @@
+2017-06-04 21:22:49 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:49 [scrapy.utils.log] INFO: Overridden settings: {'LOG_FILE': 'logs/vjspider/fzu_problem/ad819ac2492811e7b002000c2951b835.log', 'SPIDER_MODULES': ['crawl.spiders'], 'BOT_NAME': 'crawl', 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:22:50 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole']
+2017-06-04 21:22:50 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:50 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:50 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:50 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:50 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:50 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:50 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1009> (referer: None)
+2017-06-04 21:22:50 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:50) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:50 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1009>
+{'desc': '\r\n'
+         'Input consists of several test cases.\r\n'
+         'The first line of input for each case contains two positive '
+         'integers:\r\n'
+         '<i>n &lt;= 15</i>, the number of water stations, and <i>m &amp;lt '
+         '1000</i>, the \r\n'
+         'number of trails.  For each trail, there is one subsequent line '
+         'of\r\n'
+         'input containing three positive integers:  the first two, '
+         'between \r\n'
+         '1 and <i>n</i>, indicating the water stations at the end points of '
+         'the trail; \r\n'
+         'the third indicates the length of the trail, in cubits.  There may '
+         'be more\r\n'
+         'than one trail between any two stations; each different trail is '
+         'given only \r\n'
+         'once in the input; each trail can be travelled in either '
+         'direction.\r\n'
+         'It is possible to reach any trail from any other trail by visiting '
+         'a\r\n'
+         "sequence of water stations connected by trails.  Gord's route may "
+         'start \r\n'
+         'at any water station, and must end at the same station.  A single '
+         'line containing 0 follows the last test \r\n'
+         'case.\r\n'
+         '\r\n'
+         '</p><p>\r\n'
+         'For each case, there should be one line of output giving the '
+         'length of\r\n'
+         "Gord's jogging route.\r\n",
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': '',
+ 'problemId': '1009',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1009',
+ 'sampleInput': '<pre>4 5\r\n'
+                '1 2 3\r\n'
+                '2 3 4\r\n'
+                '3 4 5\r\n'
+                '1 4 10\r\n'
+                '1 3 12\r\n'
+                '0\r\n'
+                '</pre>',
+ 'sampleOutput': '<pre>41\r\n</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Jogging Trails\t\t',
+ 'updateTime': '2017-06-04 21:22:50'}
+2017-06-04 21:22:50 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:50 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3205,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 50, 418278),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 50, 57734)}
+2017-06-04 21:22:50 [scrapy.core.engine] INFO: Spider closed (finished)

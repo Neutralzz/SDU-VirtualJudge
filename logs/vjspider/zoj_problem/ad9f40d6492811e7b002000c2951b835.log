@@ -1,0 +1,166 @@
+2017-06-04 21:23:29 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:23:29 [scrapy.utils.log] INFO: Overridden settings: {'SPIDER_MODULES': ['crawl.spiders'], 'BOT_NAME': 'crawl', 'LOG_FILE': 'logs/vjspider/zoj_problem/ad9f40d6492811e7b002000c2951b835.log', 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:23:29 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole']
+2017-06-04 21:23:30 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:23:30 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:23:30 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:23:30 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:23:30 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:23:30 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:23:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1007> (referer: None)
+2017-06-04 21:23:30 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:23:30) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:23:30 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1007>
+{'desc': '\n'
+         'Produce a table of the values of the series\n'
+         '\n'
+         '<P>\n'
+         '<center>\n'
+         '<img src="/static/img/problemimg/305154200221347.gif" width="190" '
+         'height="64"><br>\n'
+         'Equation 1\n'
+         '</center>\n'
+         '\n'
+         '<p>\n'
+         'for the 2001 values of <I>x</I>, <I>x</I &ge;  0.000, 0.001, '
+         '0.002, ..., 2.000.\n'
+         'All entries of the\n'
+         'table must have an absolute error less than 0.5e-12 (12 digits of\n'
+         'precision).  This problem is based on a problem from Hamming '
+         '(1962), when\n'
+         "mainframes were very slow by today's microcomputer standards.\n"
+         '\n'
+         '<h4>Input</h4>\n'
+         '\n'
+         '<p>\n'
+         'This problem has no input.\n'
+         '\n'
+         '<h4>Output</h4>\n'
+         '\n'
+         '<p>\n'
+         'The output is to be\n'
+         'formatted as two columns with the values of <I>x</I> and\n'
+         '<font face="Symbol">y</font>(<I>x</I>)\n'
+         'printed as in the C printf or the Pascal writeln.\n'
+         '\n'
+         '<pre>\n'
+         'printf("%5.3f %16.12f\\\n'
+         '", x, psix )\t\twriteln(x:5:3, psix:16:12)\n'
+         '</pre>\n'
+         '\n'
+         '<p>\n'
+         'As an example, here are 4 acceptable lines out of 2001.\n'
+         '\n'
+         '<pre>\n'
+         '0.000   1.644934066848\n'
+         '...\n'
+         '0.500   1.227411277760\n'
+         '...\n'
+         '1.000   1.000000000000\n'
+         '...\n'
+         '2.000   0.750000000000\n'
+         '</pre>\n'
+         '\n'
+         '<p>\n'
+         'The values of <I>x</I> should start at 0.000 and increase by 0.001 '
+         'until the line\n'
+         'with <I>x</I &ge; 2.000 is output.\n'
+         '\n'
+         '<h4>Hint</h4>\n'
+         '<p>\n'
+         'The problem with summing the sequence in equation 1 is that too '
+         'many terms\n'
+         'may be required to complete the summation in the given time.  '
+         'Additionally,\n'
+         'if enough terms were to be summed, roundoff would render any '
+         'typical double\n'
+         'precision computation useless for the desired precision.\n'
+         '\n'
+         '<p>\n'
+         'To improve the convergence of the summation process note that\n'
+         '\n'
+         '<center>\n'
+         '<img src="/static/img/problemimg/305222919698083.gif" width="204" '
+         'height="56"><br>\n'
+         'Equation 2\n'
+         '</center>\n'
+         '\n'
+         '<p>\n'
+         'which implies <font face="Symbol">y</font>(1)=1.0.\n'
+         'One can then produce a series\n'
+         'for <font face="Symbol">y</font>(<I>x</I>) - <font '
+         'face="Symbol">y</font>(1)\n'
+         'which converges faster than the original series.  This series not '
+         'only\n'
+         'converges much faster, it also reduces roundoff loss.\n'
+         '\n'
+         '<p>\n'
+         'This process of finding a faster converging series may be repeated '
+         'to produce sequences which converge more and more rapidly than the '
+         'previous ones.\n'
+         '\n'
+         '<p>\n'
+         'The following inequality is helpful in determining how may items '
+         'are required in\n'
+         'summing the series above.\n'
+         '\n'
+         '<center>\n'
+         '<img src="/static/img/problemimg/305291639174819.gif" width="369" '
+         'height="66"><br>\n'
+         'Equation 3\n'
+         '</center>\n'
+         '\n'
+         '\r\n'
+         '            ',
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'ZOJ',
+ 'output': '',
+ 'problemId': '1007',
+ 'problemUrl': 'http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1007',
+ 'sampleInput': '',
+ 'sampleOutput': '',
+ 'timeLimit': '10 Seconds',
+ 'title': 'Numerical Summation of a Series',
+ 'updateTime': '2017-06-04 21:23:30'}
+2017-06-04 21:23:30 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:23:30 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 208,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 2883,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 23, 30, 526562),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 23, 30, 22037)}
+2017-06-04 21:23:30 [scrapy.core.engine] INFO: Spider closed (finished)

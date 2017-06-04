@@ -8,7 +8,7 @@
 from crawl.items import ProblemItem,StatusItem
 from vj.models import *
 import traceback,sys,re,urllib,os
-project_path = os.path.abspath('../..')
+project_path = os.path.abspath('.')
 sys.path.append(project_path)
 
 BASE_URL = {
@@ -128,6 +128,7 @@ class SolPipeline(object):
             try:
                 prob = Problem.objects.get(originoj=item['originOj'],problemid=item['problemId'])
                 print("The problem is existed.")
+                prob.originoj = item['originOj']
                 prob.problemurl = item['problemUrl']
                 prob.title = item['title']
                 prob.timelimit = item['timeLimit']

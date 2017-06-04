@@ -1,0 +1,124 @@
+2017-06-04 21:22:30 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:30 [scrapy.utils.log] INFO: Overridden settings: {'BOT_NAME': 'crawl', 'SPIDER_MODULES': ['crawl.spiders'], 'LOG_FILE': 'logs/vjspider/fzu_problem/ad74f5a6492811e7b002000c2951b835.log', 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:22:30 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2017-06-04 21:22:30 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:30 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:30 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:30 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:30 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:30 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1005> (referer: None)
+2017-06-04 21:22:30 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:30) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:30 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1005>
+{'desc': '\r\n'
+         'The fastfood chain McBurger owns several restaurants along a '
+         'highway. Recently, \r\n'
+         'they have decided to build several depots along the highway, each '
+         'one located \r\n'
+         'at a restaurant and supplying several of the restaurants with the '
+         'needed ingredients. \r\n'
+         'Naturally, these depots should be placed so that the average '
+         'distance between \r\n'
+         'a restaurant and its assigned depot is minimized. You are to write '
+         'a program that \r\n'
+         'computes the optimal positions and assignments of the depots. \r\n'
+         '</p><p></p>\r\n'
+         '<p>To make this more precise, the management of McBurger has '
+         'issued the following \r\n'
+         '  specification: You will be given the positions of n restaurants '
+         'along the highway \r\n'
+         '  as n integers d1 &lt; d2 &lt; ... &lt; dn (these are the '
+         'distances measured \r\n'
+         "  from the company's headquarter, which happens to be at the same "
+         'highway). Furthermore, \r\n'
+         '  a number k (k &lt;= n) will be given, the number of depots to be '
+         'built. </p>\r\n'
+         '\r\n'
+         '<p>The k depots will be built at the locations of k different '
+         'restaurants. Each \r\n'
+         '  restaurant will be assigned to the closest depot, from which it '
+         'will then receive \r\n'
+         '  its supplies. To minimize shipping costs, the total distance '
+         'sum, defined as</p>\r\n'
+         '<center><img '
+         'src="/static/img/problemimg/2170783734590.gif"></center>\r\n'
+         '<p> </p>\r\n'
+         '<p></p>\r\n'
+         '<p>must be as small as possible.<br>\r\n'
+         '  <br>\r\n'
+         '  Write a program that computes the positions of the k depots, '
+         'such that the total \r\n'
+         '  distance sum is minimized. </p>\r\n'
+         '<p><br>\r\n',
+ 'input': 'The input file contains several descriptions of fastfood chains. '
+          'Each description \r\n'
+          '  starts with a line containing the two integers n and k. n and k '
+          'will satisfy \r\n'
+          '  1 &lt;= n &lt;= 200, 1 &lt;= k &lt;= 30, k &lt;= n. Following '
+          'this will n lines \r\n'
+          '  containing one integer each, giving the positions di of the '
+          'restaurants, ordered \r\n'
+          '  increasingly.<br>\r\n'
+          '  <br>\r\n'
+          '  The input file will end with a case starting with n = k = 0. '
+          'This case should \r\n'
+          '  not be processed. \r\n'
+          '<p><br>\r\n'
+          '</p>',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': 'For each chain, first output the number of the chain. Then '
+           'output a \r\n'
+           '  line containing the total distance sum. \r\n'
+           '<p> Output a blank line after each test case. </p>\r\n'
+           '<p><br>\r\n'
+           '</p>',
+ 'problemId': '1005',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1005',
+ 'sampleInput': '<pre>6 3\r\n5\r\n6\r\n12\r\n19\r\n20\r\n27\r\n0 0\r\n</pre>',
+ 'sampleOutput': '<pre>Chain 1\r\nTotal distance sum = 8\r\n\r\n</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Fast Food\t\t',
+ 'updateTime': '2017-06-04 21:22:30'}
+2017-06-04 21:22:30 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:30 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3530,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 30, 585346),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 30, 98271)}
+2017-06-04 21:22:30 [scrapy.core.engine] INFO: Spider closed (finished)

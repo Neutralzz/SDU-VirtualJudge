@@ -1,0 +1,109 @@
+2017-06-04 21:22:34 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:34 [scrapy.utils.log] INFO: Overridden settings: {'LOG_FILE': 'logs/vjspider/fzu_problem/ad77f238492811e7b002000c2951b835.log', 'SPIDER_MODULES': ['crawl.spiders'], 'BOT_NAME': 'crawl', 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:22:35 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2017-06-04 21:22:35 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:35 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:35 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:35 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:35 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:35 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1006> (referer: None)
+2017-06-04 21:22:35 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:35) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:35 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1006>
+{'desc': '\r\n'
+         'Mike is frantically scrambling to finish his thesis at the last '
+         'minute.  He\r\n'
+         'needs to assemble all his research notes into vaguely coherent '
+         'form in the\r\n'
+         'next 3 days.  Unfortunately, he notices that he had been extremely '
+         'sloppy in\r\n'
+         'his calculations.  Whenever he needed to perform arithmetic, he '
+         'just plugged \r\n'
+         'it into a calculator and scribbled down as much of the answer as '
+         'he felt was\r\n'
+         'relevant.  Whenever a repeating fraction was displayed, Mike '
+         'simply\r\n'
+         'reccorded the first few digits followed by "...".  For\r\n'
+         'instance, instead of "1/3" he might have written down '
+         '"0.3333...".\r\n'
+         "Unfortunately, his results require exact fractions!  He doesn't "
+         'have time to\r\n'
+         'redo every calculation, so he needs you to write a program (and '
+         'FAST!) to\r\n'
+         'automatically deduce the original fractions.</p>\r\n'
+         '<p>\r\n'
+         'To make this tenable, he assumes that the original fraction is '
+         'always the\r\n'
+         'simplest one that produces the given sequence of digits; by '
+         '<i>simplest</i>, he means the the\r\n'
+         'one with smallest denominator.  Also, he assumes that he did not '
+         'neglect\r\n'
+         'to write down important digits; no digit from the repeating '
+         'portion of the\r\n'
+         'decimal expansion was left unrecorded (even if this repeating\r\n'
+         'portion was all zeroes). </p>\r\n'
+         '<p>\r\n'
+         'There are several test cases.  For each test case there is one '
+         'line of input\r\n'
+         'of the form "0.<i>dddd</i>..." where <i>dddd</i> is a string of 1 '
+         'to 9 digits, not all zero.\r\n'
+         'A line containing 0 follows the last case.  For each case, output '
+         'the original \r\n'
+         'fraction.</p>\r\n'
+         '<p>\r\n'
+         'Note that an exact decimal fraction has two repeating '
+         'expansions\r\n'
+         '(e.g.  1/5 = 0.2000... = 0.19999...).',
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': '',
+ 'problemId': '1006',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1006',
+ 'sampleInput': '<pre>0.2...\r\n0.20...\r\n0.474612399...\r\n0\r\n</pre>',
+ 'sampleOutput': '<pre>2/9\r\n1/5\r\n1186531/2500000\r\n</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Dead Fraction\t\t',
+ 'updateTime': '2017-06-04 21:22:35'}
+2017-06-04 21:22:35 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:35 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3458,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 35, 452573),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 35, 59425)}
+2017-06-04 21:22:35 [scrapy.core.engine] INFO: Spider closed (finished)

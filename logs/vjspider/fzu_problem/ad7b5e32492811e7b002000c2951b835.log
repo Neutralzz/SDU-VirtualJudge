@@ -1,0 +1,137 @@
+2017-06-04 21:22:39 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:39 [scrapy.utils.log] INFO: Overridden settings: {'LOG_FILE': 'logs/vjspider/fzu_problem/ad7b5e32492811e7b002000c2951b835.log', 'NEWSPIDER_MODULE': 'crawl.spiders', 'BOT_NAME': 'crawl', 'SPIDER_MODULES': ['crawl.spiders']}
+2017-06-04 21:22:39 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2017-06-04 21:22:40 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:40 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:40 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:40 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:40 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:40 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1007> (referer: None)
+2017-06-04 21:22:40 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:40) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:40 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1007>
+{'desc': '\r\n'
+         'Recently, the term <i>Biometrics</i> been used to refer to the \r\n'
+         'emerging field of technology devoted to identification of '
+         'individuals \r\n'
+         'using biological traits, such as those based on retinal or '
+         'iris \r\n'
+         'scanning, fingerprints, or face recognition.\r\n'
+         '</p><p>\r\n'
+         'A simple biometric system translates a human image into a '
+         'polygon\r\n'
+         'by considering certain features (eyes, nose, ears, etc.) to be '
+         'vertices\r\n'
+         'and connecting them with line segments.  \r\n'
+         'The polygon has distinct vertices\r\n'
+         'but may be degenerate in that the\r\n'
+         'line segments could intersect.  Because these polygons are '
+         'generally\r\n'
+         'created from remote images, there is some uncertainty as to '
+         'their\r\n'
+         'scale and rotation.  Your job is to determine whether or not\r\n'
+         'two polygons are similar; that is, can they be made equal\r\n'
+         'by repositioning, rotating and magnifying them?\r\n'
+         '</p><p>\r\n'
+         'Input consists of several test cases.  Each test case consists\r\n'
+         'of three lines containing:\r\n'
+         '</p><ul>\r\n'
+         '\r\n'
+         '<li><i>f</i>, the number of features\r\n'
+         '</li><li><i>f</i> coordinate pairs giving the vertices of the '
+         'first polygon\r\n'
+         '</li><li><i>f</i> coordinate pairs giving the vertices of the '
+         'second polygon\r\n'
+         '</li></ul>\r\n'
+         'The vertices for both polygons correspond to the same set of '
+         'features\r\n'
+         'in the same order;\r\n'
+         'for example, <i>right ear tip</i>, <i>chin cleft</i>, <i>right '
+         'eye</i>, <i>nose</i>, <i>left eye</i>, <i>left ear tip</i>, '
+         '<i>space between front teeth</i>.   \r\n'
+         'Each polygon has <i>f</i> distinct vertices;\r\n'
+         'each vertex is given\r\n'
+         'as an <i>x</i> and <i>y</i> coordinate pair.  There are at '
+         'least\r\n'
+         'three and no more than ten features.  Coordinates are integers\r\n'
+         'between -1000 and 1000.  A line containing 0 follows the last '
+         'test\r\n'
+         'case.\r\n'
+         '\r\n'
+         '<p>\r\n'
+         'For each case, output a line "similar" or "dissimilar" as '
+         'appropriate.\r\n'
+         'The two polygons are similar if, after some combination of\r\n'
+         'translation, rotation, and scaling (but not reflection)\r\n'
+         'both vertices corresponding to each feature are in the same\r\n'
+         'position.\r\n',
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': '',
+ 'problemId': '1007',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1007',
+ 'sampleInput': '<pre>4\r\n'
+                '0 0 0 1 1 1 1 0\r\n'
+                '0 1 1 0 0 -1 -1 0\r\n'
+                '3\r\n'
+                '0 0 10 0 10 10\r\n'
+                '0 0 -10 0 -10 10\r\n'
+                '3\r\n'
+                '0 0 10 10 20 20\r\n'
+                '0 0 11 11 22 22\r\n'
+                '3\r\n'
+                '0 0 10 10 20 20\r\n'
+                '0 0 11 11 20 20\r\n'
+                '0\r\n'
+                '</pre>',
+ 'sampleOutput': '<pre>similar\r\n'
+                 'dissimilar\r\n'
+                 'similar\r\n'
+                 'dissimilar\r\n'
+                 '</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Biometrics\t\t',
+ 'updateTime': '2017-06-04 21:22:40'}
+2017-06-04 21:22:40 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:40 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3584,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 40, 374187),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 40, 11592)}
+2017-06-04 21:22:40 [scrapy.core.engine] INFO: Spider closed (finished)

@@ -1,0 +1,104 @@
+2017-06-04 21:22:24 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:24 [scrapy.utils.log] INFO: Overridden settings: {'LOG_FILE': 'logs/vjspider/fzu_problem/ad70ef06492811e7b002000c2951b835.log', 'NEWSPIDER_MODULE': 'crawl.spiders', 'SPIDER_MODULES': ['crawl.spiders'], 'BOT_NAME': 'crawl'}
+2017-06-04 21:22:24 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-06-04 21:22:25 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:25 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:25 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:25 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:25 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:25 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:25 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1004> (referer: None)
+2017-06-04 21:22:25 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:25) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:25 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1004>
+{'desc': ' Consider the number triangle shown below. Write a program that\r\n'
+         'calculates the highest sum of numbers that can be passed on a '
+         'route that\r\n'
+         'starts at the top and ends somewhere on the base. Each step can go '
+         'either\r\n'
+         'diagonally down to the left or diagonally down to the '
+         'right.</p>\r\n'
+         '<center><table width="45"><tr><td>\r\n'
+         '<pre>\r\n'
+         '        7\r\n'
+         '\r\n'
+         '      3   8\r\n'
+         '\r\n'
+         '    8   1   0\r\n'
+         '\r\n'
+         '  2   7   4   4\r\n'
+         '\r\n'
+         '4   5   2   6   5\r\n'
+         '<div>\r\n'
+         '</pre></pre></td></tr></table></center>\r\n'
+         '\r\n'
+         '<p> In the sample above, the route from 7 to 3 to 8 to 7 to 5 '
+         'produces\r\n'
+         'the highest sum: 30.',
+ 'input': 'There are multiple test cases.The first line of each test case '
+          'contains R (1 &lt;= R &lt;= 1000), the number of rows.\r\n'
+          'Each subsequent line contains the integers for that particular '
+          'row of\r\n'
+          'the triangle.  All the supplied integers are non-negative and no '
+          'larger\r\n'
+          'than 100.\r\n',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': 'Print a single line containing the largest sum using the '
+           'traversal \r\n'
+           'specified for each test case.\r\n'
+           '\r\n',
+ 'problemId': '1004',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1004',
+ 'sampleInput': '<pre>5\r\n'
+                '7\r\n'
+                '3 8\r\n'
+                '8 1 0\r\n'
+                '2 7 4 4\r\n'
+                '4 5 2 6 5\r\n'
+                '</pre>',
+ 'sampleOutput': '<pre>30\r\n</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Number Triangle\t\t',
+ 'updateTime': '2017-06-04 21:22:25'}
+2017-06-04 21:22:25 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:25 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3123,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 25, 406039),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 25, 34733)}
+2017-06-04 21:22:25 [scrapy.core.engine] INFO: Spider closed (finished)

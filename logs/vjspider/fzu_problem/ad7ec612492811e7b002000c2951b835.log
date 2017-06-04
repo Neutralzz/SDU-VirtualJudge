@@ -1,0 +1,140 @@
+2017-06-04 21:22:44 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:22:44 [scrapy.utils.log] INFO: Overridden settings: {'BOT_NAME': 'crawl', 'LOG_FILE': 'logs/vjspider/fzu_problem/ad7ec612492811e7b002000c2951b835.log', 'SPIDER_MODULES': ['crawl.spiders'], 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:22:44 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2017-06-04 21:22:45 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:22:45 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:22:45 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:22:45 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:22:45 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:22:45 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:22:45 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.fzu.edu.cn/problem.php?pid=1008> (referer: None)
+2017-06-04 21:22:45 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:22:45) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:22:45 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.fzu.edu.cn/problem.php?pid=1008>
+{'desc': '\r\n'
+         'Each employee of a bureaucracy has a <i>job description</i> - a '
+         'few paragraphs\r\n'
+         "that describe the responsibilities of the job.  The employee's job "
+         'description,\r\n'
+         'combined with other factors, such as seniority, is used to '
+         'determine his or\r\n'
+         'her salary.\r\n'
+         '</p><p>\r\n'
+         'The <i>Hay Point</i> system frees the Human Resources department '
+         'from\r\n'
+         'having to make an intelligent judgement as to the value of the '
+         'employee;\r\n'
+         'the job description is merely scanned for words and phrases that '
+         'indicate\r\n'
+         'responsibility.  In particular, job descriptions that indicate '
+         'control\r\n'
+         'over a large budget or management over a large number of people '
+         'yield\r\n'
+         'high Hay Point scores.\r\n'
+         '\r\n'
+         '</p><p>\r\n'
+         'You are to implement a simplified Hay Point system.  You will be '
+         'given\r\n'
+         'a Hay Point dictionary and a number of job descriptions.  For each '
+         'job\r\n'
+         'description you are to compute the salary associated with the '
+         'job, \r\n'
+         'according to the system.\r\n'
+         '</p><p>\r\n'
+         'The first line of input contains 2 positive integers:  <i>m &lt;= '
+         '1000</i>,\r\n'
+         'the number of words in the Hay Point dictionary, and <i>n &lt;= '
+         '100</i>,\r\n'
+         'the number of job descriptions.  <i>m</i> lines follow; each '
+         'contains\r\n'
+         'a word (a string of up to 16 lower-case letters) and a dollar '
+         'value\r\n'
+         '(a real number between 0 and 1,000,000).  Following the dictionary '
+         'are\r\n'
+         'the <i>n</i> job descriptions.  Each job description consists of '
+         'one or more\r\n'
+         'lines of text; for your convenience the text has been converted to '
+         'lower case\r\n'
+         'and has no characters other than letters, numbers, and spaces.  '
+         'Each job\r\n'
+         'description is terminated by a line containing a period.\r\n'
+         '</p><p>\r\n'
+         '\r\n'
+         'For each job description, output the corresponding salary computed '
+         'as\r\n'
+         'the sum of the Hay Point values for all words that appear in the '
+         'description.\r\n'
+         'Words that do not appear in the dictionary have a value of 0.\r\n',
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'FZU',
+ 'output': '',
+ 'problemId': '1008',
+ 'problemUrl': 'http://acm.fzu.edu.cn/problem.php?pid=1008',
+ 'sampleInput': '<pre>7 2\r\n'
+                'administer 100000\r\n'
+                'spending 200000\r\n'
+                'manage 50000\r\n'
+                'responsibility 25000\r\n'
+                'expertise 100\r\n'
+                'skill 50\r\n'
+                'money 75000\r\n'
+                'the incumbent will administer the spending of kindergarden '
+                'milk money\r\n'
+                'and exercise responsibility for making change he or she '
+                'will share\r\n'
+                'responsibility for the task of managing the money with the '
+                'assistant\r\n'
+                'whose skill and expertise shall ensure the successful '
+                'spending exercise\r\n'
+                '.\r\n'
+                'this individual must have the skill to perform a heart '
+                'transplant and\r\n'
+                'expertise in rocket science\r\n'
+                '.\r\n'
+                '</pre>',
+ 'sampleOutput': '<pre>700150\r\n150\r\n</pre>',
+ 'timeLimit': '1000 mSec',
+ 'title': 'Hay Points\t\t',
+ 'updateTime': '2017-06-04 21:22:45'}
+2017-06-04 21:22:45 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:22:45 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 185,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3668,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 22, 45, 419830),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 22, 45, 31459)}
+2017-06-04 21:22:45 [scrapy.core.engine] INFO: Spider closed (finished)

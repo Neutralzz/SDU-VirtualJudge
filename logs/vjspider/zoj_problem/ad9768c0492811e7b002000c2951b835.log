@@ -1,0 +1,148 @@
+2017-06-04 21:23:19 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:23:19 [scrapy.utils.log] INFO: Overridden settings: {'SPIDER_MODULES': ['crawl.spiders'], 'NEWSPIDER_MODULE': 'crawl.spiders', 'LOG_FILE': 'logs/vjspider/zoj_problem/ad9768c0492811e7b002000c2951b835.log', 'BOT_NAME': 'crawl'}
+2017-06-04 21:23:20 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole']
+2017-06-04 21:23:20 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:23:20 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:23:20 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:23:20 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:23:20 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:23:20 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1005> (referer: None)
+2017-06-04 21:23:20 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:23:20) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1005>
+{'desc': '\n'
+         'In the movie "Die Hard 3", Bruce Willis and Samuel L. Jackson \n'
+         'were confronted with the following puzzle. They were given a '
+         '3-gallon \n'
+         'jug and a 5-gallon jug and were asked to fill the 5-gallon jug '
+         'with \n'
+         'exactly 4 gallons. This problem generalizes that puzzle.\n'
+         '<P>You have two jugs, A and B, and an infinite supply of water. \n'
+         'There are three types of actions that you can use: (1) you can '
+         'fill \n'
+         'a jug, (2) you can empty a jug, and (3) you can pour from one jug '
+         'to \n'
+         'the other. Pouring from one jug to the other stops when the first '
+         'jug \n'
+         'is empty or the second jug is full, whichever comes first.  \n'
+         'For example, if A has 5 gallons and B has 6 gallons and a '
+         'capacity \n'
+         'of 8, then pouring from A to B leaves B full and 3 gallons in A.\n'
+         '<P>A problem is given by a triple (Ca,Cb,N), where Ca and Cb are '
+         'the \n'
+         'capacities of the jugs A and B, respectively, and N is the '
+         'goal.  \n'
+         'A solution is a sequence of steps that leaves exactly N gallons '
+         'in \n'
+         'jug B. The possible steps are\n'
+         '<P>fill A\n'
+         '<BR>fill B\n'
+         '<BR>empty A\n'
+         '<BR>empty B\n'
+         '<BR>pour A B\n'
+         '<BR>pour B A\n'
+         '<BR>success\n'
+         '<P>where "pour A B" means "pour the contents of jug A into jug '
+         'B", \n'
+         'and "success" means that the goal has been accomplished.\n'
+         '<P>You may assume that the input you are given does have a '
+         'solution.\n'
+         '<P><B>Input</B>\n'
+         '<P>Input to your program consists of a series of input lines '
+         'each \n'
+         'defining one puzzle. Input for each puzzle is a single line of '
+         'three \n'
+         'positive integers: Ca, Cb, and N. Ca and Cb are the capacities '
+         'of \n'
+         'jugs A and B, and N is the goal. You can assume 0 &lt; Ca &lt;= '
+         'Cb \n'
+         'and N &lt;= Cb &lt;=1000 and that A and B are relatively prime '
+         'to \n'
+         'one another.\n'
+         '<P><B>Output</B>\n'
+         '<P>Output from your program will consist of a series of '
+         'instructions \n'
+         'from the list of the potential output lines which will result in \n'
+         'either of the jugs containing exactly N gallons of water. The '
+         'last \n'
+         'line of output for each puzzle should be the line "success". \n'
+         'Output lines start in column 1 and there should be no empty '
+         'lines \n'
+         'nor any trailing spaces.\n'
+         '<P><h4>Sample Input</h4>\n'
+         '<pre>\n'
+         '3 5 4\n'
+         '5 7 3\n'
+         '\n'
+         '</pre>\n'
+         '<h4>Sample Output</h4>\n'
+         '<pre>\n'
+         'fill B\n'
+         'pour B A\n'
+         'empty A\n'
+         'pour B A\n'
+         'fill B\n'
+         'pour B A\n'
+         'success\n'
+         'fill A\n'
+         'pour A B\n'
+         'fill A\n'
+         'pour A B\n'
+         'empty B\n'
+         'pour A B\n'
+         'success</pre>\n'
+         '\r\n'
+         '            ',
+ 'input': '',
+ 'memoryLimit': '65536 KB',
+ 'note': '',
+ 'originOj': 'ZOJ',
+ 'output': '',
+ 'problemId': '1005',
+ 'problemUrl': 'http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1005',
+ 'sampleInput': '',
+ 'sampleOutput': '',
+ 'timeLimit': '2 Seconds',
+ 'title': 'Jugs',
+ 'updateTime': '2017-06-04 21:23:20'}
+2017-06-04 21:23:20 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:23:20 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 208,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 2843,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 23, 20, 325195),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 23, 20, 41544)}
+2017-06-04 21:23:20 [scrapy.core.engine] INFO: Spider closed (finished)

@@ -1,0 +1,211 @@
+2017-06-04 21:23:39 [scrapy.utils.log] INFO: Scrapy 1.3.3 started (bot: crawl)
+2017-06-04 21:23:39 [scrapy.utils.log] INFO: Overridden settings: {'SPIDER_MODULES': ['crawl.spiders'], 'BOT_NAME': 'crawl', 'LOG_FILE': 'logs/vjspider/zoj_problem/ada60d4e492811e7b002000c2951b835.log', 'NEWSPIDER_MODULE': 'crawl.spiders'}
+2017-06-04 21:23:39 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2017-06-04 21:23:40 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-06-04 21:23:40 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-06-04 21:23:40 [scrapy.middleware] INFO: Enabled item pipelines:
+['crawl.pipelines.SolPipeline']
+2017-06-04 21:23:40 [scrapy.core.engine] INFO: Spider opened
+2017-06-04 21:23:40 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-06-04 21:23:40 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-06-04 21:23:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1009> (referer: None)
+2017-06-04 21:23:40 [py.warnings] WARNING: /usr/local/lib/python3.4/dist-packages/django/db/models/fields/__init__.py:1447: RuntimeWarning: DateTimeField Problem.updatetime received a naive datetime (2017-06-04 21:23:40) while time zone support is active.
+  RuntimeWarning)
+
+2017-06-04 21:23:40 [scrapy.core.scraper] DEBUG: Scraped from <200 http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1009>
+{'desc': 'In World War II, Germany once used an electronic encryption '
+         'machine called \n'
+         '  Enigma, which played a decisive role in the initial victories of '
+         'Nazi Germany. \n'
+         '  It was proved to be one of the most reliable encryption systems '
+         'in history. \n'
+         '  However, it was the blind trust on the reliability of the '
+         'machine that brought \n'
+         '  about the doom of its user. <br>\n'
+         '  <br>\n'
+         '  The structure of a one-rotor Enigma is shown as follows (the '
+         'Enigma has only \n'
+         '  six keys):</p>\n'
+         '<p align="center"><img '
+         'src="/static/img/problemimg/295200256263985.jpg" width="500" '
+         'height="225"></p>\n'
+         '<p>The key element of the Enigma is the rotor, as shown in the '
+         'second figure, \n'
+         '  which uses electronic circuits to transform plaintext (input '
+         'from keyboard) \n'
+         '  into cryptograph (output on screen). When one key on the '
+         'keyboard is pressed, \n'
+         '  the corresponding cryptograph is shown on screen. Then the rotor '
+         'will automatically \n'
+         '  revolve a one-letter-step to a different position. The following '
+         'figures illustrate \n'
+         '  how the rotor works when letter &quot;b&quot; is pressed three '
+         'successively \n'
+         '  times:</p>\n'
+         '<p align="center"><img '
+         'src="/static/img/problemimg/295268975740721.jpg" width="400" '
+         'height="532"></p>\n'
+         '<p>When letter &quot;b&quot; is pressed for the first time, the '
+         'signal goes through \n'
+         '  the circuit and &quot;A&quot; is shown on screen. When the key '
+         'is released, \n'
+         '  the rotor revolves one-letter-step to a different position that '
+         'changes all \n'
+         '  the corresponding circuits so that each letter now has a '
+         'different cryptograph. \n'
+         '  When letter &quot;b&quot; is pressed for the second time, the '
+         'corresponding \n'
+         '  cryptograph is &quot;C&quot;. So when letter &quot;b&quot; is '
+         'pressed for the \n'
+         '  third time, the cryptograph is &quot;E&quot; according to the '
+         'principle specified \n'
+         '  above.<br>\n'
+         '  <br>\n'
+         '  Now the following figure shows the structure of a two-rotor '
+         'Enigma.</p>\n'
+         '<p align="center"><img '
+         'src="/static/img/problemimg/295337695217457.jpg" width="600" '
+         'height="144"></p>\n'
+         '<p> The difference is that when a key is released, the second '
+         "rotor won't revolve \n"
+         '  a step until the first one has finished one circle and returns '
+         'to the original \n'
+         '  position. This is also the same in the case of three-rotor '
+         'Enigma. That is: \n'
+         '  Only after the first rotor has finished one circle and return to '
+         'the initial \n'
+         '  status, the second rotor will revolve a step. And only after the '
+         'second rotor \n'
+         '  has finish one circle, the third rotor will revolve a step.<br>\n'
+         '  <br>\n'
+         '  However, how did the Allied Forces obtain the information '
+         'encrypted by Enigma? \n'
+         '  A person named Hans-Thilo Schimdt was very essential. He acted '
+         'as a spy and \n'
+         '  provided the initial status of the three rotors in each Enigma '
+         'to the Allied \n'
+         '  Forces once a month. The Allied Forces thus got everything they '
+         'wanted by deciphering \n'
+         '  the intercepted cryptograph using the information offered by the '
+         'spy.<br>\n'
+         '  <br>\n'
+         '  Now, please design a program to obtain the plaintexts using the '
+         'information \n'
+         '  offered by the Allied Forces.</p>\n'
+         '<p><br>\n'
+         '  <b>Input</b><br>\n'
+         '  <br>\n'
+         '  The input file contains several test cases representing several '
+         'three-rotor \n'
+         '  Enigmas. The last test case in the input file is followed by a '
+         'line containing \n'
+         '  a number 0.<br>\n'
+         '  <br>\n'
+         '  Each case begins with a line containing an integer m (1  &le;  '
+         'm  &le;  26) which indicates \n'
+         '  the number of sequential letters each rotor has. The first '
+         'letter will always \n'
+         '  be A. (for example, m = 6 tells each rotor has 6 keys from A to '
+         'F). The following \n'
+         '  three lines describe the initial status of the three rotors '
+         'respectively. Each \n'
+         '  of them contains a string consisting of m capital character. For '
+         'instance, a \n'
+         '  rotor with the initial status &quot;BADFEC&quot; indicates that '
+         'the initial \n'
+         '  encrypt mechanism is to convert &quot;abcdef&quot; to '
+         '&quot;BADFEC&quot;, that \n'
+         '  is, original letter &quot;a&quot; corresponding to cryptograph '
+         'letter &quot;B&quot;, \n'
+         '  &quot;b&quot; to &quot;A&quot;, &quot;c&quot; to &quot;D&quot;, '
+         '&quot;d&quot; \n'
+         '  to &quot;F&quot;, &quot;e&quot; to &quot;E&quot; and '
+         '&quot;f&quot; to &quot;C&quot;. \n'
+         '  The forth line of each case contains an integer n which tells '
+         'the number of \n'
+         '  cryptographs generated by the above Enigma. Then the following n '
+         'lines are the \n'
+         '  n cryptographs respectively, which consist of m capital '
+         'characters each.</p>\n'
+         '<p><b><br>\n'
+         '  Output</b><br>\n'
+         '  <br>\n'
+         '  For each test case, the output should consist of two parts. The '
+         'first line is \n'
+         '  the number of Enigma and a colon. The following lines are the '
+         'plaintexts deciphered \n'
+         '  from the corresponding cryptographs. Each plaintext should be '
+         'printed in one \n'
+         '  line. Note: The characters in the plaintext should be converted '
+         'to the corresponding \n'
+         '  lowercases before they are printed.<br>\n'
+         '  <br>\n'
+         '  Insert a blank line between test cases.</p>\n'
+         '<p><br>\n'
+         '  <b>Sample Input</b><br>\n'
+         '  <br>\n'
+         '  6<br>\n'
+         '  BADFEC<br>\n'
+         '  ABCDEF<br>\n'
+         '  ABCDEF<br>\n'
+         '  1<br>\n'
+         '  ACE<br>\n'
+         '  0</p>\n'
+         '<p><br>\n'
+         '  <b>Output for the Sample Input<br>\n'
+         '  </b><br>\n'
+         '  Enigma 1:<br>\n'
+         '  bbb<br>\n'
+         '</p>\n'
+         '\r\n'
+         '            ',
+ 'input': '',
+ 'memoryLimit': '32768 KB',
+ 'note': '',
+ 'originOj': 'ZOJ',
+ 'output': '',
+ 'problemId': '1009',
+ 'problemUrl': 'http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=1009',
+ 'sampleInput': '',
+ 'sampleOutput': '',
+ 'timeLimit': '10 Seconds',
+ 'title': 'Enigma',
+ 'updateTime': '2017-06-04 21:23:40'}
+2017-06-04 21:23:40 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-06-04 21:23:40 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 208,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 3739,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 6, 4, 13, 23, 40, 521558),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 3,
+ 'log_count/INFO': 7,
+ 'log_count/WARNING': 1,
+ 'response_received_count': 1,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2017, 6, 4, 13, 23, 40, 23269)}
+2017-06-04 21:23:40 [scrapy.core.engine] INFO: Spider closed (finished)
