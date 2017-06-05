@@ -145,6 +145,7 @@ def problem(req):
         qs = Problem.objects.filter(Q(proid__icontains=search) | Q(title__icontains=search))
     elif originoj or problemid or title:
         qs = Problem.objects.filter(Q(originoj__icontains=originoj) & Q(problemid__icontains=problemid) & Q(title__icontains=title))
+        pg = 1
     else:
         qs = Problem.objects.all()
 

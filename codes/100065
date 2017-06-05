@@ -1,0 +1,15 @@
+import java.util.*
+
+public Main{
+static BigInteger a,b;
+public static void main(String[] args){
+Scanner sc = new Scanner(System.in);
+int n = sc.nextInt();
+whlie(n-->0){
+a = sc.nextBigInteger();
+b = sc.nextBigInteger();
+System.out.println(a+b);
+}
+}
+
+}

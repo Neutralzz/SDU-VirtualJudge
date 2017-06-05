@@ -1,5 +1,6 @@
 setup.py
 bin/__init__.py
+bin/delspider.py
 bin/judger.py
 bin/submiter.py
 bin/test.py

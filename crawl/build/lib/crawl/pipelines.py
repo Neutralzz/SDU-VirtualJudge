@@ -60,7 +60,8 @@ def restoreSpecialChar(text):
             replace(r'\r','\r').\
             replace(r'\t','\t').\
             replace(r'\"','\"').\
-            replace(r'\'','\'')
+            replace(r'\'','\'').\
+            replace(r'\\','\\')
             
 
 class SolPipeline(object):

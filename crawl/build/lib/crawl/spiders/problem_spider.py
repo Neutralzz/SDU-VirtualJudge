@@ -20,7 +20,8 @@ class HduProblemSpider(Spider):
 
     def parse(self, response):
         #print("11111111111111111",type(response.body))
-        html = str(response.body)
+        
+        html = (response.body).decode('gbk','ignore')
         sel = Selector(text=html)
 
         item = ProblemItem()
@@ -59,7 +60,7 @@ class PojProblemSpider(Spider):
         ]
 
     def parse(self, response):
-        html = str(response.body)
+        html = (response.body).decode('gbk','ignore')        
         sel = Selector(text=html)
 
 
@@ -116,7 +117,7 @@ class ZojProblemSpider(Spider):
                 return text[i+2:]
 
     def parse(self,response):
-        html = str(response.body)
+        html = (response.body).decode('gbk','ignore')
         sel = Selector(text=html)
 
         item = ProblemItem()
@@ -147,7 +148,7 @@ class FzuProblemSpider(Spider):
         ]
 
     def parse(self, response):
-        html = str(response.body)
+        html = (response.body).decode('gbk','ignore')
         sel = Selector(text=html)
 
         item = ProblemItem()
@@ -158,7 +159,7 @@ class FzuProblemSpider(Spider):
             '//div[contains(@class,\
             "problem_title")]/b/text()').extract()[0][14:].rstrip()
         item['desc'] = \
-            sel.css('.pro_desc').extract()[0][22:-6].\
+            sel.css('.pro_desc').extract()[0].\
             replace('<div class="data">', '<pre>').\
             replace('</div>', '</pre>')
         try:
@@ -175,13 +176,9 @@ class FzuProblemSpider(Spider):
             sel.css('.problem_desc').\
             re('M[\S*\s]*B')[0][15:]
         item['sampleInput'] = \
-            sel.css('.data').extract()[-2].\
-            replace('<div class="data">', '<pre>').\
-            replace('</div>', '</pre>')
+            sel.xpath('//div[@class="data"]/text()').extract()[-2]
         item['sampleOutput'] = \
-            sel.css('.data').extract()[-1].\
-            replace('<div class="data">', '<pre>').\
-            replace('</div>', '</pre>')
+            sel.xpath('//div[@class="data"]/text()').extract()[-1]
         item['updateTime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
         item['note'] = ''
