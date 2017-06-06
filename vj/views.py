@@ -438,6 +438,7 @@ def contest_submit(req, cid):
         else:
             status.cid = -1
 
+        status.save()
         temp = Status.objects.aggregate(maxRunid=Max('runid'))
         status.source_code = str(temp['maxRunid']+1)
 
@@ -447,8 +448,8 @@ def contest_submit(req, cid):
             f.close()
             #status.code = base64.b64encode(bytes(req.POST.get('code'), 'utf-8'))
         else:
-            return ren2res("problem/problem_submit.html", req,
-                           {'problem': Problem.objects.get(proid=proid), 'err': "No Submit!"})
+            return ren2res("contest/contest_submit.html", req,
+                           {'contest': contest, 'problems': contest.get_problem_list(), 'err': 'No Submit!'})
 
         status.save()
     if not finish:
