@@ -238,7 +238,7 @@ def status(req):
 
     search = req.GET.get('search')
     if search:
-        query = query.filter(Q(pro__title__icontains=search) | Q(user__username__icontains=search))
+        query = query.filter(Q(runid__icontains=search) | Q(pro__title__icontains=search) | Q(user__username__icontains=search))
 
     #print(len(query))
 
@@ -430,32 +430,31 @@ def contest_submit(req, cid):
     if req.method == 'GET':
         return ren2res("contest/contest_submit.html", req, {'contest': contest, 'problems': contest.get_problem_list()})
     elif req.method == 'POST':
-        pid = req.POST.get('pid')
-        #need change start
-        # sub = Status(pro=Problem.objects.get(proid=pid), user=req.user, lang=req.POST.get('lang'))
-        sub = Status(user=req.user, pro=Problem.objects.get(proid=pid), lang=req.POST.get('lang'), result='Waiting', 
-            time=time)
+        proid = req.POST.get('proid')
+        status = Status(user=req.user, pro=Problem.objects.get(proid=proid), lang=req.POST.get('lang'), result='Waiting', time=time)
 
         if not finish:
-            sub.cid = contest.id
+            status.cid = contest.id
         else:
-            sub.cid = -1
-        sub.save()
+            status.cid = -1
+
+        temp = Status.objects.aggregate(maxRunid=Max('runid'))
+        status.source_code = str(temp['maxRunid']+1)
+
         if req.POST.get('code'):
-            content_file = ContentFile(req.POST.get('code'))
-        elif req.FILES:
-            content_file = ContentFile(req.FILES['file'].read())
+            f = open(project_path+'/codes/' + str(status.source_code), 'w')
+            f.write(req.POST.get('code'))
+            f.close()
+            #status.code = base64.b64encode(bytes(req.POST.get('code'), 'utf-8'))
         else:
-            return ren2res("contest/contest_submit.html", req,
-                           {'contest': contest, 'problems': contest.get_problem_list(), 'err': 'No Submit!'})
-        #sub.source_code.save(name=str(sub.runid), content=content_file)
-        sub.save()
-        #judger.Judger(sub)
-        #result=judge_delay.delay(sub)
+            return ren2res("problem/problem_submit.html", req,
+                           {'problem': Problem.objects.get(proid=proid), 'err': "No Submit!"})
+
+        status.save()
     if not finish:
         return HttpResponseRedirect("/contest/" + cid + "/")
     else:
-        return HttpResponseRedirect("/contest/"+cid+"/status?pid=" + pid)
+        return HttpResponseRedirect("/status/?search=" + str(status.runid))
         #need change end
 
 def contest_time(req, cid):#don't need change

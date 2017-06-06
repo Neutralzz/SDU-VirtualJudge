@@ -190,8 +190,8 @@ function getServerTime(){
     		var elapsed;
     		elapsed=(current-start.getTime())/1000;
     		if(elapsed>duration){
-    		    alert("Contest is Over!");
-    		    return false;
+    		    alert("Contest is Over! We will submit it in Problem for you.");
+    		    //return false;
     		}else{
     		    $('#submit_form').ajaxForm(
         			$.ajax({
