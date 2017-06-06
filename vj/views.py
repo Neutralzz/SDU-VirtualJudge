@@ -254,7 +254,9 @@ def status(req):
     lst = query[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
     #print(len(lst))
 
-    return ren2res('status.html', req, {'pro_id': pro_id, 'page': range(start, end + 1), 'list': lst , 'LANG_DICT':LANG_DICT})
+    return ren2res('status.html', req, {'pro_id': pro_id, 'page': range(start, end + 1), 'list': lst , 'LANG_DICT':LANG_DICT
+        , 'runid':runid, 'originoj':originoj, 'problemid':problemid, 'title':title
+        , 'result':result, 'lang':lang, 'uid':uid})
 
 
 @login_required
@@ -538,3 +540,36 @@ def contest_rank(req, cid):
 
 def page_not_found(req):
     return ren2res("404.html", req, {})
+
+def rank(req):
+    pg = int(req.GET.get('pg', 1))
+    search = req.GET.get('search', "")
+    if search:
+        qs = UserInfo.objects.filter(Q(nickname__icontains=search)|Q(id__icontains=search))
+        # .select_related("uid__name").filter(uid__contains=search)
+    else:
+        qs = UserInfo.objects.all().order_by('-problem_ac','problem_try')
+
+#    for item in qs:
+#        item.problem_ac=item.cnt_ac()
+#        item.save()
+
+    max = qs.count() // LIST_NUMBER_EVERY_PAGE + 1
+
+    if (pg > max):
+        raise Http404("no such page")
+    start = pg - PAGE_NUMBER_EVERY_PAGE
+    if start < 1:
+        start = 1
+    end = pg + PAGE_NUMBER_EVERY_PAGE
+    if end > max:
+        end = max
+
+    lst = qs[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
+    idx = (pg - 1) * LIST_NUMBER_EVERY_PAGE
+
+    return ren2res("rank.html", req, {'pg': pg, 'page': list(range(start, end + 1)), 'list': lst, 'idx': idx})
+
+
+def about(req):
+    return ren2res("about.html", req, {})

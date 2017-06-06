@@ -26,12 +26,56 @@ $(document).ready(function()
 <form id="sta_table" method="post">
 {% csrf_token %}
     <tr>
-        <th><center>RunID <input class="form-control" type="text" id="runid" style="width:70px;" name="runid" value="{{runid}}"></center></th>
-        <th><center>OriginOJ <input class="form-control" type="text" id="originoj" style="width:70px;" name="originoj" value="{{originoj}}"></center></th>
-        <th><center>ProblemID <input class="form-control" type="text" id="problemid" style="width:70px;" name="problemid" value="{{problemid}}"></center></th>
-        <th><center>Problem <input class="form-control" type="text" id="title" style="width:150px;" name="title" value="{{title}}"></center></th>
-        <th><center>Status/Score <input class="form-control" type="text" id="result" style="width:80px;" name="result" value="{{result}}"></center></th>
-        <th><center>Language <input class="form-control" type="text" id="lang" style="width:60px;" name="lang" value="{{lang}}"></center></th>
+        <th><center>RunID 
+        <input class="form-control" type="text" id="runid" style="width:70px;" name="runid" value="{{runid}}">
+        </center></th>
+
+        <th><center>OriginOJ 
+            <select name="originoj" class="form-control" value="{{originoj}}" style="width:100px;" >
+            <option value="">ALL</option>
+            <option value="HDU" {% if originoj == "HDU" %}  selected = "selected"  {% endif %} >HDU</option>
+            <option value="FZU" {% if originoj == "FZU" %}  selected = "selected"  {% endif %} >FZU</option>
+            <option value="ZOJ" {% if originoj == "ZOJ" %}  selected = "selected"  {% endif %} >ZOJ</option>
+        </center></th>
+
+        <th><center>ProblemID 
+        <input class="form-control" type="text" id="problemid" style="width:70px;" name="problemid" value="{{problemid}}">
+        </center></th>
+
+        <th><center>Problem 
+        <input class="form-control" type="text" id="title" style="width:150px;" name="title" value="{{title}}">
+        </center></th>
+
+        <th><center>Status/Score 
+            <select name="result" class="form-control" value="{{result}}" style="width:120px;" >
+            <option value="">ALL</option>
+            <option value="Accepted" {% if result == "Accepted" %}  selected = "selected"  {% endif %} >Accepted</option>
+            <option value="Wrong" {% if result == "Wrong" %}  selected = "selected"  {% endif %} >Wrong Answer</option>
+            <option value="Compilation" {% if result == "Compilation" %}  selected = "selected"  {% endif %} >CompilationError</option>
+            <option value="Runtime" {% if result == "Runtime" %}  selected = "selected"  {% endif %} >Runtime Error</option>
+            <option value="Submit" {% if result == "Submit" %}  selected = "selected"  {% endif %} >Submit Failed</option>
+            <option value="Time" {% if result == "Time" %}  selected = "selected"  {% endif %} >Time Limit Exceed</option>
+            <option value="Memory" {% if result == "Memory" %}  selected = "selected"  {% endif %} >Memory Limit Exceed</option>
+            <option value="Waiting" {% if result == "Waiting" %}  selected = "selected"  {% endif %} >Waiting</option>
+            <option value="Pending" {% if result == "Pending" %}  selected = "selected"  {% endif %} >Pending</option>
+            <option value="Segmentation" {% if result == "Segmentation" %}  selected = "selected"  {% endif %} >Segmentation Fault</option>
+            <option value="Non-zero" {% if result == "Non-zero" %}  selected = "selected"  {% endif %} >Non-zero Exit Code</option>
+            <option value="Presentation" {% if result == "Presentation" %}  selected = "selected"  {% endif %} >Presentation Error</option>
+        </center></th>
+
+        <th><center>Language 
+            <select name="lang" class="form-control" value="{{lang}}" style="width:100px;" >
+            <option value="">ALL</option>
+            <option value="0" {% if lang == "0" %}  selected = "selected"  {% endif %} >G++</option>
+            <option value="1" {% if lang == "1" %}  selected = "selected"  {% endif %} >GCC</option>
+            <option value="2" {% if lang == "2" %}  selected = "selected"  {% endif %} >C++</option>
+            <option value="3" {% if lang == "3" %}  selected = "selected"  {% endif %} >C</option>
+            <option value="4" {% if lang == "4" %}  selected = "selected"  {% endif %} >Pascal</option>
+            <option value="5" {% if lang == "5" %}  selected = "selected"  {% endif %} >Java</option>
+            <option value="6" {% if lang == "6" %}  selected = "selected"  {% endif %} >C#</option>
+            <option value="7" {% if lang == "7" %}  selected = "selected"  {% endif %} >Python</option>
+        </center></th>
+
         <th><center>Time</center></th>
         <th><center>Memory</center></th>
         <th><center>User <input class="form-control" type="text" id="uid" style="width:60px;" name="uid" value="{{uid}}"></center></th>

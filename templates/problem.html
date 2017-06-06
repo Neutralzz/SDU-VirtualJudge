@@ -40,9 +40,21 @@ $(document).ready(function()
 <form id="pro_table" method="post">
 {% csrf_token %}
 <tr>
-    <th><center>OJ <input class="form-control" type="text" id="originoj" style="width:60px;" name="originoj" value="{{originoj}}"></center></th>
-    <th><center>Pro_ID <input class="form-control" type="text" id="problemid" style="width:60px;" name="problemid" value="{{problemid}}"></center></th>
-    <th><center>Title <input class="form-control" type="text" id="title" style="width:350px;" name="title" value="{{title}}"></center> </th>
+    <th><center>OJ 
+            <select name="originoj" class="form-control" value="{{originoj}}">
+            <option value="HDU" {% if originoj == "HDU" %}  selected = "selected"  {% endif %} >HDU</option>
+            <option value="FZU" {% if originoj == "FZU" %}  selected = "selected"  {% endif %} >FZU</option>
+            <option value="ZOJ" {% if originoj == "ZOJ" %}  selected = "selected"  {% endif %} >ZOJ</option>
+    </center></th>
+
+    <th><center>Pro_ID 
+    <input class="form-control" type="text" id="problemid" style="width:60px;" name="problemid" value="{{problemid}}">
+    </center></th>
+
+    <th><center>Title 
+    <input class="form-control" type="text" id="title" style="width:350px;" name="title" value="{{title}}">
+    </center> </th>
+    
     <input type="submit" style="display:none" ></input> 
     <th><center>Accepted/Submit</center></th>
     <th><center>Upload</center></th>

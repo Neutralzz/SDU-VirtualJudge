@@ -19,6 +19,8 @@ from django.conf import settings
 
 from vj import views
 
+handler404 = 'OJ.views.page_not_found'
+
 urlpatterns = [
     url(r'^$', views.home),
     url(r'^login/$', views.login),
@@ -40,4 +42,6 @@ urlpatterns = [
     url(r'^contest/([0-9]+)/submit/$', views.contest_submit),
     url(r'^contest/([0-9]+)/time/$', views.contest_time),
     url(r'^contest/([0-9]+)/rank/$', views.contest_rank),
+    url(r'^rank/$', views.rank),
+    url(r'^about/$', views.about),
 ]
