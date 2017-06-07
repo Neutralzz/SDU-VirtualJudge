@@ -24,6 +24,7 @@ handler404 = 'OJ.views.page_not_found'
 urlpatterns = [
     url(r'^$', views.home),
     url(r'^login/$', views.login),
+    url(r'^accounts/login/$',views.login),
     url(r'^register/$', views.register),
     url(r'^logout/$', views.logout),
     url(r'^problem/$', views.problem),
@@ -36,6 +37,9 @@ urlpatterns = [
     url(r'^profile/$', views.profile),
 
     url(r'^contest/$', views.contest),
+    url(r'^contest/addcontest/$', views.contest_add),
+    url(r'^contest/addcontest/get_problem_title/$',views.addcontest_get_problem_title),
+
     url(r'^contest/([0-9]+)/$', views.contest_detail),
     url(r'^contest/([0-9]+)/get_problem$', views.contest_get_problem),
     url(r'^contest/([0-9]+)/status/$', views.contest_status),

@@ -1,13 +1,25 @@
 </br>
 <table class="table">
     <thead>
+    <script type="text/javascript">
+        $('#refresh_button').click(function () {
+            $.ajax({
+                    type: 'post',
+                    url: "/contest/" + {{ contest_id }} + "/status/",
+                    success: function (responseData) {
+                        $('#panel-status').html(responseData);
+                    }
+            })
+        })
+    </script>
     <tr>
         <th>RunID</th>
         <th>Problem</th>
         <th>Status</th>
         <th>Language</th>
         <th>User</th>
-        <th>SubmitTime</th>
+        <th>SubmitTime&nbsp&nbsp&nbsp<button id = "refresh_button" class="btn btn-success">Refresh</button></th>
+
     </tr>
     </thead>
     <tbody>
@@ -35,10 +47,10 @@
 		    {% endifequal %}
             {% endifequal %}
             {% ifequal item.user.id user.id %}
-                <td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.result }}</a></td>
+                <td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_lang_display }}</a></td>
             {% else %}
 		    {% ifequal user.is_staff True %}
-			<td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.result }}</a></td>
+			<td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_lang_display }}</a></td>
 		    {% else %}
 			<td>{{ item.lang }}</td>
 		    {% endifequal %}

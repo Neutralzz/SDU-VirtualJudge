@@ -341,6 +341,22 @@ def contest(req):
 
     return ren2res('contest.html', req, {'page': range(start, end + 1), 'list': lst})
 
+@login_required
+def contest_add(req):
+    return render(req,'contest/contest_add.html',{'user':req.user})
+    #return ren2res('/contest/contest_add.html',req,{'user':req.user})
+
+def addcontest_get_problem_title(req):
+    originoj = req.GET.get('originoj')
+    probid = req.GET.get('probid')
+    try:
+        result = Problem.objects.get(originoj=originoj,problemid=probid)
+        if result:
+            return HttpResponse(result.title)
+        else:
+            return HttpResponse("No Such Problem")    
+    except:
+        return HttpResponse("No Such Problem")
 
 @login_required
 def contest_detail(req, cid):
@@ -364,7 +380,7 @@ def contest_detail(req, cid):
         problems_status = [0 for i in range(length)]
 
         for i in range(length):
-            problems[i].append(len(Status.objects.filter(user = req.user).filter(pro = problems[i][2]).filter(result = 'Accepted')))#changes
+            problems[i].append(len(Status.objects.filter(user = req.user,cid = cid,pro = problems[i][2],result = 'Accepted')))#changes
         return ren2res("contest/contest.html", req, {'contest': contest, 'problems': problems, 'problem': problems[0][2]})
     else:
         return ren2res("contest/contest.html", req, {'contest': contest, 'err': "Just wait."})
@@ -389,7 +405,7 @@ def contest_status(req, cid):#has understood
     if req.is_ajax():
         contest = Contest.objects.get(id=cid)
         t = loader.get_template('contest/contest_status.html')
-        status_list = Status.objects.filter(cid=cid).order_by('-time')#need change
+        status_list = Status.objects.filter(cid=cid).order_by('-runid')#need change
         if contest.private:
             if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                 status_list = []
@@ -425,10 +441,12 @@ def contest_submit(req, cid):
 
     if contest.private:
         if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
-            return HttpResponseRedirect("/contest/" + cid + "/")
+            return HttpResponseRedirect("contest/%d/status/"%int(cid))
+            #return HttpResponseRedirect("/contest/" + cid + "/")
 
     if req.method == 'GET':
-        return ren2res("contest/contest_submit.html", req, {'contest': contest, 'problems': contest.get_problem_list()})
+        return HttpResponseRedirect("contest/%d/status/"%int(cid))
+        #return ren2res("contest/contest_submit.html", req, {'contest': contest, 'problems': contest.get_problem_list()})
     elif req.method == 'POST':
         proid = req.POST.get('proid')
         status = Status(user=req.user, pro=Problem.objects.get(proid=proid), lang=req.POST.get('lang'), result='Waiting', time=time)
@@ -442,19 +460,28 @@ def contest_submit(req, cid):
         temp = Status.objects.aggregate(maxRunid=Max('runid'))
         status.source_code = str(temp['maxRunid']+1)
 
-        if req.POST.get('code'):
+        if req.POST.get('code') :
             f = open(project_path+'/codes/' + str(status.source_code), 'w')
             f.write(req.POST.get('code'))
             f.close()
-            #status.code = base64.b64encode(bytes(req.POST.get('code'), 'utf-8'))
-        else:
-            return ren2res("contest/contest_submit.html", req,
-                           {'contest': contest, 'problems': contest.get_problem_list(), 'err': 'No Submit!'})
 
         status.save()
     if not finish:
-        return HttpResponseRedirect("/contest/" + cid + "/")
+        pass
+        #return HttpResponseRedirect("/contest/%d/"%int(cid))
+        """
+        status_list = Status.objects.filter(cid=cid).order_by('-runid')
+        pg = 1
+        max_cnt = status_list.count() // 20 + 1
+        start = max(pg - PAGE_NUMBER_EVERY_PAGE, 1)
+        end = min(pg + PAGE_NUMBER_EVERY_PAGE, max_cnt)
+
+        lst = status_list[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
+        return render(req,'contest/contest_status.html',{'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user})
+        #return HttpResponseRedirect("../status/")
+        """
     else:
+        #return HttpResponseRedirect("/status/")
         return HttpResponseRedirect("/status/?search=" + str(status.runid))
         #need change end
 

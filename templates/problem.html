@@ -42,6 +42,7 @@ $(document).ready(function()
 <tr>
     <th><center>OJ 
             <select name="originoj" class="form-control" value="{{originoj}}">
+            <option value="">ALL</option>
             <option value="HDU" {% if originoj == "HDU" %}  selected = "selected"  {% endif %} >HDU</option>
             <option value="FZU" {% if originoj == "FZU" %}  selected = "selected"  {% endif %} >FZU</option>
             <option value="ZOJ" {% if originoj == "ZOJ" %}  selected = "selected"  {% endif %} >ZOJ</option>

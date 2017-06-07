@@ -8,7 +8,7 @@
     <h1 class="text-center text-info">{{ contest.name }}</h1>
     <ul class="text-center" style="list-style:none;">
         <li>Start Time: {{ contest.start_time }} &nbsp;&nbsp;Duration Time: {{ contest.duration_time }}</li>
-	<li id="current">Current Time: 1970-01-01 00:00:00</li>
+    <li id="current">Current Time: 1970-01-01 00:00:00</li>
     </ul>
 
 <div id="current2" style="width: 0%; text-align: right; float; left;"><span></span></div>
@@ -73,8 +73,8 @@ function getServerTime(){
         return hours + ":" + str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);;
     }
     function syncServerTime(){
-    	servertime=getServerTime();
-    	current=servertime;
+        servertime=getServerTime();
+        current=servertime;
     }
     function refreshtime(start){
         var tmpTime = current.getTime();
@@ -89,7 +89,7 @@ function getServerTime(){
         var cutdowntime= secondsToTime(cutdown);
         $("#current").html("Current Time: "+current);
         if(elapsed>duration){
-	    $("#current2").html("<span></span>");
+        $("#current2").html("<span></span>");
             $("#current2").css("width", "101%");
             $("#progress").css("width", "100%");
         } else if(elapsed<0){
@@ -160,16 +160,16 @@ function getServerTime(){
         var start;
         var duration;
         $(document).ready(function () {
-	    $.ajax({
-	     	type: "post",
-	     	url: "/contest/" + {{ contest.id }} + "/time/",
-	     	dataType: "json",
-	     	success: function(data){
-			start=new Date(data.start);
-			duration=data.duration;
-//   			setInterval(function(){refreshtime(start);},1000);
-	        }
-	    });
+        $.ajax({
+            type: "post",
+            url: "/contest/" + {{ contest.id }} + "/time/",
+            dataType: "json",
+            success: function(data){
+            start=new Date(data.start);
+            duration=data.duration;
+//               setInterval(function(){refreshtime(start);},1000);
+            }
+        });
         $('#get_status').click(function () {
 //                alert("Hello!");
             contest_id = {{contest.id}};
@@ -178,34 +178,34 @@ function getServerTime(){
                 url: "/contest/" + contest_id + "/status/",
                 success: function (responseData) {
                     $('#panel-status').html(responseData);
-		//MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
             })
         })
-	    $('#get_rank').click(function(){
-	            refreshRankList();
-		})
-	    $('#submit_button').click(function(){
-    		var current=getServerTime();
-    		var elapsed;
-    		elapsed=(current-start.getTime())/1000;
-    		if(elapsed>duration){
-    		    alert("Contest is Over! We will submit it in Problem for you.");
-    		    //return false;
-    		}else{
-    		    $('#submit_form').ajaxForm(
-        			$.ajax({
-        			    type: 'post',
-        			    url: "/contest/" + {{ contest.id }} + "/status/",
-        			    success: function (responseData) {
-        				    $('#panel-status').html(responseData);
-        			    	$('#overview').tab('show');
-        			    }
-        			})
-    		    )
-    		}
+        $('#get_rank').click(function(){
+                refreshRankList();
         })
-            $('#overview').tab('show');
+        $('#submit_button').click(function(){
+            var current=getServerTime();
+            var elapsed;
+            elapsed=(current-start.getTime())/1000;
+            if(elapsed>duration){
+                alert("Contest is Over! We will submit it in Problem for you.");
+            }else{
+                $('#submit_form').ajaxForm(
+                    $.ajax({
+                        type: 'post',
+                        url: "/contest/" + {{ contest.id }} + "/status/",
+                        success: function (responseData) {
+                            $('#panel-status').html(responseData);
+                            $('#get_status').tab('show');
+                        }
+                        
+                    })
+                )
+            }
+        })
+            //$('#overview').tab('show');
         })
     </script>
 {% endblock %}

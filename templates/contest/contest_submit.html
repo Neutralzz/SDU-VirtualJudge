@@ -43,8 +43,9 @@ $(document).ready(function(){
         </select>
     </div>
     <div class="form-group">
-        <label><input type="radio" id="selsrc" name="inputype" checked="checked">  Source Code:</label>
-        <textarea id="srcarea" name="code" class="form-control" maxlength="65536" rows="24"></textarea>
+        <label><input type="radio" id="selsrc" name="inputype" checked="checked">  Source Code:
+        <font color="red">{{err}}</font></label>
+        <textarea id="srcarea" name="code" class="form-control" maxlength="65536" rows="16"></textarea>
     </div>
     <!-- {% if user.sid %} -->
         <!-- <button id="submit_button" class="btn btn-primary">Submit</button> -->
@@ -52,4 +53,18 @@ $(document).ready(function(){
         <button id="submit_button" class="btn btn-primary">Submit</button>
     <!-- <a href="/profile/" target="_blank">Update Your StudentID Before Submit</a> -->
     <!-- {% endif %} -->
+    <!--
+    <script type="text/javascript">
+        function get_status() {
+            contest_id = {{contest.id}};
+            $.ajax({
+                type: 'post',
+                url: "/contest/" + contest_id + "/status/",
+                success: function (responseData) {
+                    $('#panel-status').html(responseData);
+        //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                }
+            })
+        }
+    </script>-->
 </form>
