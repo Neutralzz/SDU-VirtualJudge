@@ -52,7 +52,7 @@
 		    {% ifequal user.is_staff True %}
 			<td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_lang_display }}</a></td>
 		    {% else %}
-			<td>{{ item.lang }}</td>
+			<td>{{ item.get_lang_display }}</td>
 		    {% endifequal %}
             {% endifequal %}
             <td>{{ item.user.username }}</td>

@@ -60,7 +60,10 @@
                 type: 'get',
                 url: "/contest/addcontest/get_problem_title/?originoj=" + originoj+"&probid="+probid,
                 success: function (responseData) {
-                    $(title_obj).val(responseData);
+                    var probid_now = $(inputobject).val()
+                    if(probid == probid_now){
+                        $(title_obj).val(responseData)
+                    }
                 }
             })
         }
@@ -111,8 +114,8 @@
                             alert("Please check your begin-time format!")
                         }else if(responseData == "duration error"){
                             alert("Please check your duration format!")
-                        }else if(responseData == "error"){
-                            alert("Occur a unexcepted error!")
+                        }else if(responseData == "password error"){
+                            alert("Please set your password!")
                         }else{
                             window.location.href = responseData;
                         }

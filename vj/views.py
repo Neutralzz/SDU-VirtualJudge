@@ -390,7 +390,12 @@ def contest_add_process(req):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
-    private = (password=='')
+
+    if openness=='private' and password=='':
+        return HttpResponse('password error')
+    elif openness=='public':
+        password = ''
+
     
     if not is_valid_date(begin):
         return HttpResponse("begin error")
@@ -425,6 +430,8 @@ def contest_add_process(req):
             while problems[j] != '$':
                 j = j+1
             score = problems[i+1:j]
+            if typec == 'icpc':
+                score = '1'
             i = j
             problemsArr.append(Problem.objects.get(originoj=originoj,problemid=problemid))
             scoreArr.append(score)
@@ -432,7 +439,7 @@ def contest_add_process(req):
             continue
 
 
-    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration, private=private, password=password)
+    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration, private=(openness=='private'), password=password)
     cont.save()
     for i in range(0,len(problemsArr)):
         cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i])

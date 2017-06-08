@@ -88,6 +88,25 @@ class SolPipeline(object):
             sts.memoryc = item['memoryc']
             print("end : %s,%s,%s)))"%(sts.result,sts.timec,sts.memoryc))
             sts.save()
+            
+            userinfo = UserInfo.objects.get(id=sts.user)
+            ischange = False  
+            try:
+                userinfo.problems_try.add(sts.pro)
+                userinfo.problem_try = userinfo.cnt_try()
+                ischange = True
+            except:
+                pass
+            try:
+                if sts.result=='Accept' or sts.result=='Accepted' or sts.result=='Yes' or sts.result=='YES':
+                    userinfo.problems_ac.add(sts.pro)
+                    userinfo.problem_ac = userinfo.cnt_ac()
+                    ischange = True
+            except:
+                pass
+            if ischange:
+                userinfo.save()
+            
         except Exception as e:
             print("Error : sql execute failed")
             print(str(e))
