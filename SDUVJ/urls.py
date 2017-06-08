@@ -39,6 +39,8 @@ urlpatterns = [
     url(r'^contest/$', views.contest),
     url(r'^contest/addcontest/$', views.contest_add),
     url(r'^contest/addcontest/get_problem_title/$',views.addcontest_get_problem_title),
+    url(r'^contest/addcontest/submit/$', views.contest_add_process),
+    
 
     url(r'^contest/([0-9]+)/$', views.contest_detail),
     url(r'^contest/([0-9]+)/get_problem$', views.contest_get_problem),

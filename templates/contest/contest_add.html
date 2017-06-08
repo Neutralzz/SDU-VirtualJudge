@@ -18,7 +18,7 @@
                     $("#contest_open").after("<div class = \"row\" id=\"contest_pass\">"+
                         "<label class=\"col-sm-2 control-label\">Password:</label>"+
                         "<div class=\"col-sm-5\">"+
-                        "<input type=\"password\" class=\"form-control\" name=\"title\">"+
+                        "<input type=\"password\" class=\"form-control\" name=\"password\">"+
                         "</div>"+
                         "</div>")
                 }
@@ -56,20 +56,72 @@
             var originoj = $(trobject).children("td").eq(0).children("select").eq(0).val()
             var probid = $(inputobject).val()
             var title_obj = $(trobject).children("td").eq(2).children("input").eq(0)
-            //alert($(title_obj).val())
+            alert($(title_obj).val())
             $.ajax({
                 type: 'get',
                 url: "/contest/addcontest/get_problem_title/?originoj=" + originoj+"&probid="+probid,
                 success: function (responseData) {
-                    //alert(responseData)
+                    alert(responseData)
                     $(title_obj).val(responseData);
                 }
             })
         }
         function addcontest_submit(){
             //author type openness title begin duration
+            var problems = "$"
+            var ok = 0
 
-
+            $("#probTable tr").each(function(){
+                var originoj = $(this).children("td").eq(0).children("select").eq(0).val()
+                var probid   = $(this).children("td").eq(1).children("input").eq(0).val()
+                var title    = $(this).children("td").eq(2).children("input").eq(0).val()
+                var score    = $(this).children("td").eq(3).children("input").eq(0).val()
+                if(title == "No Such Problem" || isNaN(score)){
+                    alert(title+"/"+score)
+                    ok = ok + 1
+                }else{
+                    problems = problems + originoj + "|" + probid + "|" + score + "$"
+                }
+            })
+            alert(problems)
+            if(ok < 2){
+                var pass = ""
+                var obj = $('input[name="password"]')
+                if(obj.length != 0){
+                    pass = $('input[name="password"]').val()
+                }
+                detail = {
+                    "author" : $('input[name="author"]').val(),
+                    "type" : $('input[name="type"]').val(),
+                    "openness" : $('input[name="openness"]').val(),
+                    "password" : pass
+                    "title" : $('input[name="title"]').val(),
+                    "begin" : $('input[name="begin"]').val(),
+                    "duration" : $('input[name="duration"]').val(),
+                    "problems" : problems
+                }
+                $.ajax({
+                    type : "post",
+                    url : "/contest/addcontest/submit/",
+                    data : detail,
+                    success : function(responseData){
+                        if(responseData == "begin error"){
+                            alert("Please check your begin-time format!")
+                        }else if(responseData == "duration error"){
+                            alert("Please check your duration format!")
+                        }else if(responseData == "error"){
+                            alert("Occur a unexcepted error!")
+                        }else{
+                            window.location.href = responseData;
+                        }
+                    },
+                    error : function(responseData){
+                        alert("Add contest error!")
+                    }
+                })
+            }else{
+                alert("Please check your problems!")
+            }
         }
     </script>
     <div class="clearfix" style="margin-bottom: 10px;">

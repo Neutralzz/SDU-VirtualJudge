@@ -37,6 +37,14 @@ LANGUAGE = {
         'Python' : '7',
         }
 
+def is_valid_date(strdate):  
+    try:  
+        time.strptime(strdate, "%Y-%m-%d %H:%M:%S")  
+        return True  
+    except:  
+        return False  
+
+
 def ren2res(template, req, dict={}):
     if req.user.is_authenticated():
         p = re.compile('^[0-9a-zA-Z_]+$')
@@ -357,6 +365,58 @@ def addcontest_get_problem_title(req):
             return HttpResponse("No Such Problem")    
     except:
         return HttpResponse("No Such Problem")
+def contest_add_process(req):
+    #author type openness title begin duration problems
+    author = req.POST.get("author")
+    type = req.POST.get("type")
+    openness = req.POST.get("openness")
+    password = req.POST.get("password")
+    title = req.POST.get("title")
+    begin = req.POST.get("begin")
+    duration = req.POST.get("duration")
+    problems = req.POST.get("problems")
+    
+    if not is_valid_date(begin):
+        return HttpResponse("begin error")
+    
+    point = 0
+    for i in range(0,len(duration)):
+        if duration[i] == ':':
+            point = i
+    if duration[0:point].isdigit() and duration[point+1:].isdigit():
+        duration = int(duration[0:point])*3600 + int(duration[point+1:])*60
+        duration = duration*1000
+    else:
+        return HttpResponse("duration error")
+    
+    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration,\
+        accounts=[UserInfo.objects.get(id=req.user)])
+    cont.problems = []
+    originoj = ""
+    problemid = ""
+    score = ""
+    for i in range(0,len(problems)-1):
+        if problems[i] == '$':
+            j = i
+            while problems[j] != '|':
+                j = j+1
+            originoj = problems[i+1:j]
+            i = j
+            while problems[j] != '|':
+                j = j+1
+            problemid = problems[i+1:j]
+            i = j
+            while problems[j] != '$':
+                j = j+1
+            score = problems[i+1:j]
+            i = j
+            cont.problems.append(Probelm.objects.get(originoj=originoj,problemid=problemid))
+        else:
+            break
+
+    cont.save()
+
+    return HttpResponse("/contest/")
 
 @login_required
 def contest_detail(req, cid):
