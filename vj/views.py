@@ -334,9 +334,9 @@ def show_source(req):
 def contest(req):
     search = req.GET.get('search')
     if search:
-        query = Contest.objects.filter(Q(name__icontains=search) | Q(uid__username__icontains=search))
+        query = Contest.objects.filter(Q(name__icontains=search) | Q(uid__username__icontains=search)).order_by("-start_time")
     else:
-        query = Contest.objects.all()
+        query = Contest.objects.all().order_by("-start_time")
     pg = req.GET.get('pg')
     if not pg:
         pg = 1
