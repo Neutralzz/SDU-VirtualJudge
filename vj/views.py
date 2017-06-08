@@ -365,10 +365,11 @@ def addcontest_get_problem_title(req):
             return HttpResponse("No Such Problem")    
     except:
         return HttpResponse("No Such Problem")
+
 def contest_add_process(req):
     #author type openness title begin duration problems
     author = req.POST.get("author")
-    type = req.POST.get("type")
+    typec = req.POST.get("type")
     openness = req.POST.get("openness")
     password = req.POST.get("password")
     title = req.POST.get("title")
