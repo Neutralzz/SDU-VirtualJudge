@@ -91,7 +91,7 @@ class Contest(models.Model):
     name = models.CharField(max_length=256)
     start_time = models.DateTimeField()
     duration_time = models.DurationField()
-    problems = models.ManyToManyField(Problem, related_name="contests")
+    problems = models.ManyToManyField(Problem, related_name="contests", through="Contest_problems")
     rank = models.TextField(default="{}")   #cached rank
     last_submit_id = models.IntegerField(default = 0)   #last submit id add to rank
     private = models.BooleanField(default=False)
@@ -135,3 +135,8 @@ class Status(models.Model):
     # class Meta:
     #     managed = True
     #     db_table = 'status'
+
+class Contest_problems(models.Model):
+    contest = models.ForeignKey(Contest)
+    problem = models.ForeignKey(Problem)
+    score = models.IntegerField(default=1)

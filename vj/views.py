@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.db.models import Q,Max
 from django.core.files.base import ContentFile
+from datetime import timedelta
 from vj.models import *
 from django.utils import timezone
 from collections import OrderedDict
@@ -366,6 +367,19 @@ def addcontest_get_problem_title(req):
     except:
         return HttpResponse("No Such Problem")
 
+regex = re.compile(r'((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?')
+
+def parse_time(time_str):
+    parts = regex.match(time_str)
+    if not parts:
+        return
+    parts = parts.groupdict()
+    time_params = {}
+    for (name, param) in parts.iteritems():
+        if param:
+            time_params[name] = int(param)
+    return timedelta(**time_params)
+
 def contest_add_process(req):
     #author type openness title begin duration problems
     author = req.POST.get("author")
@@ -376,6 +390,7 @@ def contest_add_process(req):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
+    private = (password=='')
     
     if not is_valid_date(begin):
         return HttpResponse("begin error")
@@ -385,14 +400,12 @@ def contest_add_process(req):
         if duration[i] == ':':
             point = i
     if duration[0:point].isdigit() and duration[point+1:].isdigit():
-        duration = int(duration[0:point])*3600 + int(duration[point+1:])*60
-        duration = duration*1000
+        duration = timedelta(hours=int(duration[0:point]),minutes=int(duration[point+1:]))
     else:
         return HttpResponse("duration error")
-    
-    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration,\
-        accounts=[UserInfo.objects.get(id=req.user)])
-    cont.problems = []
+
+    problemsArr = []
+    scoreArr = []
     originoj = ""
     problemid = ""
     score = ""
@@ -403,20 +416,27 @@ def contest_add_process(req):
                 j = j+1
             originoj = problems[i+1:j]
             i = j
+            j = j+1
             while problems[j] != '|':
                 j = j+1
             problemid = problems[i+1:j]
             i = j
+            j = j+1
             while problems[j] != '$':
                 j = j+1
             score = problems[i+1:j]
             i = j
-            cont.problems.append(Probelm.objects.get(originoj=originoj,problemid=problemid))
+            problemsArr.append(Problem.objects.get(originoj=originoj,problemid=problemid))
+            scoreArr.append(score)
         else:
-            break
+            continue
 
+
+    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration, private=private, password=password)
     cont.save()
-
+    for i in range(0,len(problemsArr)):
+        cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i])
+        cp.save()
     return HttpResponse("/contest/")
 
 @login_required
@@ -442,7 +462,7 @@ def contest_detail(req, cid):
 
         for i in range(length):
             problems[i].append(len(Status.objects.filter(user = req.user,cid = cid,pro = problems[i][2],result = 'Accepted')))#changes
-        return ren2res("contest/contest.html", req, {'contest': contest, 'problems': problems, 'problem': problems[0][2]})
+        return ren2res("contest/contest.html", req, {'contest': contest, 'problems': problems})
     else:
         return ren2res("contest/contest.html", req, {'contest': contest, 'err': "Just wait."})
 
