@@ -97,8 +97,8 @@
                 
                 detail = {
                     "author" : $('input[name="author"]').val(),
-                    "type" : $('input[name="type"]').val(),
-                    "openness" : $('input[name="openness"]').val(),
+                    "type" : $("input[name='type']:checked").val(),
+                    "openness" : $("input[name='openness']:checked").val(),
                     "password" : pass,
                     "title" : $('input[name="title"]').val(),
                     "begin" : $('input[name="begin"]').val(),
@@ -117,6 +117,7 @@
                         }else if(responseData == "password error"){
                             alert("Please set your password!")
                         }else{
+                            //alert(responseData)
                             window.location.href = responseData;
                         }
                     },

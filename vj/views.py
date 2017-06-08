@@ -396,7 +396,6 @@ def contest_add_process(req):
     elif openness=='public':
         password = ''
 
-    
     if not is_valid_date(begin):
         return HttpResponse("begin error")
     
@@ -449,6 +448,9 @@ def contest_add_process(req):
 @login_required
 def contest_detail(req, cid):
     contest = Contest.objects.get(id=cid)
+    password = ""
+    if req.POST.get('password'):
+        password = req.POST.get('password')
     # time = datetime.datetime.now(pytz.timezone(pytz.country_timezones('cn')[0]))
     # time = datetime.datetime.now()
     time = timezone.now()
@@ -460,6 +462,11 @@ def contest_detail(req, cid):
         #print(problems)
         # print('contest.accounts')
         # print(contest.accounts.all())
+        if str(contest.password) == password :
+            try:
+                contest.accounts.add(req.user.info)
+            except Exception as e:
+                print(str(e))
         if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
             return ren2res("contest/contest.html", req, {'contest': contest, 'err': "You do not have access to this contest."})
     if start:
