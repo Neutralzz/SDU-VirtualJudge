@@ -41,7 +41,7 @@
                  <td>{{ item.score }}</td>
 	    {% else %}
 		    {% ifequal item.result "Compilation Error"%}
-			<td><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.result }}</a></td>
+			<td>{{ item.result }}</td>
 		    {% else %}
 			<td>{{ item.result }}</td>
 		    {% endifequal %}

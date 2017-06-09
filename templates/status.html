@@ -102,7 +102,7 @@ $(document).ready(function()
             {% else %}
                 {% ifequal item.result "Compilation Error" %}
                   {% ifequal item.uid.id user.id %}
-                    <td><center><a href="/show_source?solution_id={{ item.runid }}" target="_blank">{{ item.get_status_display }}</a></center></td>
+                    <td><center>{{ item.result }}</center></td>
                   {% else %}
                     <td><center>{{ item.result }}</center></td>
                   {% endifequal %}

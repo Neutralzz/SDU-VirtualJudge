@@ -367,6 +367,7 @@ def addcontest_get_problem_title(req):
     except:
         return HttpResponse("No Such Problem")
 
+
 regex = re.compile(r'((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?')
 
 def parse_time(time_str):
@@ -380,6 +381,7 @@ def parse_time(time_str):
             time_params[name] = int(param)
     return timedelta(**time_params)
 
+@login_required
 def contest_add_process(req):
     #author type openness title begin duration problems
     author = req.POST.get("author")
@@ -440,10 +442,92 @@ def contest_add_process(req):
 
     cont = Contest(uid=req.user,name=title,typec=typec,start_time=begin,duration_time=duration, private=(openness=='private'), password=password)
     cont.save()
+    cont.accounts.add(req.user.info)
+    cont.save()
+    
     for i in range(0,len(problemsArr)):
         cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i],order=i)
         cp.save()
     return HttpResponse("/contest/")
+
+@login_required
+def contest_modify(req,cid):
+    contest = Contest.objects.get(id=cid)
+    if req.user != contest.uid:
+        return HttpResponse("No Permission!")
+    problems = contest.get_problem_list()
+    return ren2res("contest/contest_modify.html", req, {'contest': contest,'problems': problems})
+@login_required
+def contest_modify_process(req,cid):
+    author = req.POST.get("author")
+    typec = req.POST.get("type")
+    openness = req.POST.get("openness")
+    password = req.POST.get("password")
+    title = req.POST.get("title")
+    begin = req.POST.get("begin")
+    duration = req.POST.get("duration")
+    problems = req.POST.get("problems")
+
+    if openness=='private' and password=='':
+        return HttpResponse('password error')
+    elif openness=='public':
+        password = ''
+
+    if not is_valid_date(begin):
+        return HttpResponse("begin error")
+    
+    point = 0
+    for i in range(0,len(duration)):
+        if duration[i] == ':':
+            point = i
+    if duration[0:point].isdigit() and duration[point+1:].isdigit():
+        duration = timedelta(hours=int(duration[0:point]),minutes=int(duration[point+1:]))
+    else:
+        return HttpResponse("duration error")
+
+    problemsArr = []
+    scoreArr = []
+    originoj = ""
+    problemid = ""
+    score = ""
+    for i in range(0,len(problems)-1):
+        if problems[i] == '$':
+            j = i
+            while problems[j] != '|':
+                j = j+1
+            originoj = problems[i+1:j]
+            i = j
+            j = j+1
+            while problems[j] != '|':
+                j = j+1
+            problemid = problems[i+1:j]
+            i = j
+            j = j+1
+            while problems[j] != '$':
+                j = j+1
+            score = problems[i+1:j]
+            if typec == 'icpc':
+                score = '1'
+            i = j
+            problemsArr.append(Problem.objects.get(originoj=originoj,problemid=problemid))
+            scoreArr.append(score)
+        else:
+            continue
+
+    cont = Contest.objects.get(id=cid)
+    cont.name = title
+    cont.typec = typec
+    cont.start_time = begin
+    cont.duration_time = duration
+    cont.private =(openness=='private')
+    cont.password=password
+    cont.save()
+    cont.problems.clear()
+    cont.save()
+    for i in range(0,len(problemsArr)):
+        cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i],order=i)
+        cp.save()
+    return HttpResponse("/contest/"+cid+"/")
 
 @login_required
 def contest_detail(req, cid):
@@ -465,6 +549,7 @@ def contest_detail(req, cid):
         if str(contest.password) == password :
             try:
                 contest.accounts.add(req.user.info)
+                contest.save()
             except Exception as e:
                 print(str(e))
         if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
@@ -476,7 +561,7 @@ def contest_detail(req, cid):
 
         for i in range(length):
             problems[i].append(len(Status.objects.filter(user = req.user,cid = cid,pro = problems[i][2],result = 'Accepted')))#changes
-        return ren2res("contest/contest.html", req, {'contest': contest, 'problems': problems})
+        return ren2res("contest/contest.html", req, {'contest': contest, 'problems': problems,'isAuthor':(req.user==contest.uid)})
     else:
         return ren2res("contest/contest.html", req, {'contest': contest, 'err': "Just wait."})
 

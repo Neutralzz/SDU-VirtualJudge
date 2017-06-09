@@ -43,6 +43,9 @@ urlpatterns = [
     
 
     url(r'^contest/([0-9]+)/$', views.contest_detail),
+    url(r'^contest/([0-9]+)/modify/$', views.contest_modify),
+    url(r'^contest/([0-9]+)/modify/submit/$', views.contest_modify_process),
+    
     url(r'^contest/([0-9]+)/get_problem$', views.contest_get_problem),
     url(r'^contest/([0-9]+)/status/$', views.contest_status),
     url(r'^contest/([0-9]+)/submit/$', views.contest_submit),
