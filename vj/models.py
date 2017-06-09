@@ -89,6 +89,7 @@ class Contest(models.Model):
         db_table = 'contest'"""
     uid = models.ForeignKey(User)
     name = models.CharField(max_length=256)
+    typec = models.CharField(max_length=20,default='icpc')
     start_time = models.DateTimeField()
     duration_time = models.DurationField()
     problems = models.ManyToManyField(Problem, related_name="contests", through="Contest_problems")
@@ -111,11 +112,11 @@ class Contest(models.Model):
         return Submit.objects.filter(cid=self.id)
 
     def get_problem_list(self):
-        problems = self.problems.all()
+        cont_probs = Contest_problems.objects.filter(contest=self).order_by('order')
         lst = []
         cnt = 0
-        for problem in problems:
-            lst.append([cnt, chr(cnt + 65), problem])
+        for cont_prob in cont_probs:
+            lst.append([cnt, chr(cnt + 65), cont_prob.problem,cont_prob.score])
             cnt += 1
         return lst
 
@@ -140,3 +141,4 @@ class Contest_problems(models.Model):
     contest = models.ForeignKey(Contest)
     problem = models.ForeignKey(Problem)
     score = models.IntegerField(default=1)
+    order = models.IntegerField()

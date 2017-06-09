@@ -10,10 +10,13 @@
             <th>&nbsp;</th>
             <th>ID</th>
             <th>Title</th>
+            {% if contest.typec == 'custom' %}
+                <th>Score&nbsp;&nbsp;&nbsp;</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
-        {% for cnt,chr,problem, status in problems %}
+        {% for cnt,chr,problem,score, status in problems %}
             <tr>
                 {% if status == 0 %}
                 <th></th>
@@ -22,6 +25,7 @@
                 {% endif%}
                 <th>Problem {{ chr }}</th>
                 <th><a href="#" onclick="get_problem({{ problem.proid }})">{{ problem.title }}</a></th>
+                <th>{{ score }}</th>
             </tr>
         {% endfor %}
         </tbody>

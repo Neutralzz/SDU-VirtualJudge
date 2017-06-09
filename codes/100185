@@ -1,0 +1,22 @@
+#include<cstdio>
+#include<iostream>
+
+using namespace std;
+
+int c[1000],a,b,n;
+
+int main(){
+    while(~scanf("%d%d%d",&a,&b,&n)){
+        if(a + b + n == 0) break;
+        c[1] = c[2] = 1;
+        //printf("1 1 ");
+        for(int i=3;i<49;i++){
+            c[i] = (a*c[i-1]+b*c[i-2]) % 7;
+        }
+        n %= 48;
+        if(n == 0) n = 48;
+        printf("%d\n",c[n]);
+    }
+
+    return 0;
+}

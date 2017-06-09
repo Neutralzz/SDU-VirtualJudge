@@ -438,10 +438,10 @@ def contest_add_process(req):
             continue
 
 
-    cont = Contest(uid=req.user,name=title,start_time=begin,duration_time=duration, private=(openness=='private'), password=password)
+    cont = Contest(uid=req.user,name=title,typec=typec,start_time=begin,duration_time=duration, private=(openness=='private'), password=password)
     cont.save()
     for i in range(0,len(problemsArr)):
-        cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i])
+        cp = Contest_problems(contest=cont,problem=problemsArr[i],score=scoreArr[i],order=i)
         cp.save()
     return HttpResponse("/contest/")
 
@@ -596,6 +596,12 @@ def contest_time(req, cid):#don't need change
         print(timeData)
         return JsonResponse(timeData)
 
+def dateToInt(date, field):
+     if field == 0:
+         return date.days * 24 * 60 + date.seconds // 60
+     else:
+         return date.days * 24 * 60 *60  + date.seconds
+
 @login_required
 def contest_rank(req, cid):
     if req.is_ajax():
@@ -639,19 +645,27 @@ def contest_rank(req, cid):
 
             pos = statsinfo[item.pro.title]["pos"]
 
-            if item.result == 3: #Waiting
+            if item.result == 'Waiting': #Waiting
                 break
 
-            if item.result == 0: #Accepted
+            if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES': #Accepted
                 rank_dict["statsinfo"][pos]["acNum"] += 1
             rank_dict["statsinfo"][pos]["tryNum"] += 1
 
             if rank_dict[name]["probs"][pos]["acNum"] == 0:
-                if item.result == 0:
+                if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES':
                     rank_dict[name]["probs"][pos]["acNum"] += 1
-                    rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.timec - contest.start_time, 1)
-                    rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.timec - contest.start_time, 0)
-                    rank_dict[name]["solved"] += 1
+                    rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.time - contest.start_time, 1)
+                    #rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
+                    #rank_dict[name]["solved"] += 1
+                    if contest.typec == 'icpc':
+                        rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
+                        rank_dict[name]["solved"] += 1
+                    else:
+                        rank_dict[name]["penalty"] += dateToInt(item.time - contest.start_time, 0)
+                        cont_pro = Contest_problems.objects.get(contest=contest,problem=item.pro)
+                        rank_dict[name]["solved"] += cont_pro.score
+                    
                 else:
                     rank_dict[name]["probs"][pos]["failNum"] += 1
         contest.rank = json.dumps(rank_dict)

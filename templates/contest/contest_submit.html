@@ -37,7 +37,7 @@ $(document).ready(function(){
     <div class="form-group">
         <label>Problem:</label>
         <select name="proid" class="form-control">
-            {% for cnt,chr,problem,id in problems %}
+            {% for cnt,chr,problem,score,id in problems %}
                 <option value="{{ problem.proid }}">{{ chr }} : {{ problem.title }}</option>
             {% endfor %}
         </select>
