@@ -157,7 +157,7 @@ def problem(req):
         pg = 1
     else:
         qs = Problem.objects.all()
-
+    qs = qs.order_by('-updatetime')
     idxstart = (pg - 1) * LIST_NUMBER_EVERY_PAGE
     idxend = pg * LIST_NUMBER_EVERY_PAGE
 
