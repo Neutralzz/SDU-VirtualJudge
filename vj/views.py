@@ -146,13 +146,10 @@ def function():
 
 def problem(req):
     pg = int(req.GET.get('pg', 1))
-    search = req.GET.get('search', "")
     originoj= req.POST.get('originoj',"")
     problemid=req.POST.get('problemid',"")
     title=req.POST.get('title',"")
-    if search:
-        qs = Problem.objects.filter(Q(proid__icontains=search) | Q(title__icontains=search))
-    elif originoj or problemid or title:
+    if originoj or problemid or title:
         qs = Problem.objects.filter(Q(originoj__icontains=originoj) & Q(problemid__icontains=problemid) & Q(title__icontains=title))
         pg = 1
     else:
@@ -231,6 +228,9 @@ def status(req):
     pro_id = req.GET.get('pro_id')
 
     runid= req.POST.get('runid',"")
+    if runid=='':
+        runid = req.GET.get('runid',"")
+    #以post为主
     originoj= req.POST.get('originoj',"")
     problemid= req.POST.get('problemid',"")
     title= req.POST.get('title',"")
@@ -244,10 +244,6 @@ def status(req):
             & Q(pro__title__icontains=title) & Q(result__icontains=result) & Q(lang__icontains=lang) & Q(user__username__icontains=uid) ).order_by('-runid')
     else:
         query = Status.objects.all().order_by('-runid')
-
-    search = req.GET.get('search')
-    if search:
-        query = query.filter(Q(runid__icontains=search) | Q(pro__title__icontains=search) | Q(user__username__icontains=search))
 
     #print(len(query))
 
@@ -332,9 +328,10 @@ def show_source(req):
 #new add ,need change
 
 def contest(req):
-    search = req.GET.get('search')
-    if search:
-        query = Contest.objects.filter(Q(name__icontains=search) | Q(uid__username__icontains=search)).order_by("-start_time")
+    name = req.POST.get('name',"")
+    username = req.POST.get('username',"")
+    if name or username:
+        query = Contest.objects.filter(Q(name__icontains=name) & Q(uid__username__icontains=username)).order_by("-start_time")
     else:
         query = Contest.objects.all().order_by("-start_time")
     pg = req.GET.get('pg')
@@ -348,7 +345,7 @@ def contest(req):
 
     lst = query[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
 
-    return ren2res('contest.html', req, {'page': range(start, end + 1), 'list': lst})
+    return ren2res('contest.html', req, {'page': range(start, end + 1), 'list': lst ,'name': name, 'username':username})
 
 @login_required
 def contest_add(req):
@@ -662,7 +659,7 @@ def contest_submit(req, cid):
         """
     else:
         #return HttpResponseRedirect("/status/")
-        return HttpResponseRedirect("/status/?search=" + str(status.runid))
+        return HttpResponseRedirect("/status/?runid=" + str(status.runid))
         #need change end
 
 def contest_time(req, cid):#don't need change
@@ -764,12 +761,8 @@ def page_not_found(req):
 
 def rank(req):
     pg = int(req.GET.get('pg', 1))
-    search = req.GET.get('search', "")
-    if search:
-        qs = UserInfo.objects.filter(Q(nickname__icontains=search)|Q(id__icontains=search))
-        # .select_related("uid__name").filter(uid__contains=search)
-    else:
-        qs = UserInfo.objects.all().order_by('-problem_ac','problem_try')
+    qs = UserInfo.objects.all().order_by('-problem_ac','problem_try')
+    #qs = UserInfo.objects.all().order_by('-problem_ac','problem_try')
 
 #    for item in qs:
 #        item.problem_ac=item.cnt_ac()
@@ -789,7 +782,7 @@ def rank(req):
     lst = qs[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
     idx = (pg - 1) * LIST_NUMBER_EVERY_PAGE
 
-    return ren2res("rank.html", req, {'pg': pg, 'page': list(range(start, end + 1)), 'list': lst, 'idx': idx})
+    return ren2res("rank.html", req, {'pg': pg, 'page': list(range(start, end + 1)), 'list': lst, 'idx': idx, 'rank':rank})
 
 
 def about(req):

@@ -13,12 +13,20 @@
     </script>
 {% endblock %}
 {% block list %}
+<form id="cont_table" method="post">
+{% csrf_token %}
     <tr>
-        <th>Name</th>
+        <th>Name
+        <input class="form-control" type="text" id="name" style="width:200px;" name="name" value="{{name}}">
+        </th>
         <th>StartTime</th>
         <th>Duration</th>
         <th>Problems</th>
-        <th>User</th>
+        <th>User
+        <input class="form-control" type="text" id="username" style="width:100px;" name="username" value="{{username}}">
+        </th>
+
+        <input type="submit" style="display:none" ></input> 
     </tr>
     {% for item in list %}
         <tr>
@@ -29,6 +37,7 @@
             <th>{{ item.uid.username}}</th>
         </tr>
     {% endfor %}
+</form>
 {% endblock %}
 {% block page %}
     <ul class="pagination">

@@ -72,6 +72,9 @@ class UserInfo(models.Model):
         if self.problem_try==0:
             return 0
         return int(self.problem_ac/self.problem_try*100)
+    def rank(self):
+        #return self.problems_ac.count()
+        return self.problems_ac.count()
     # class Meta:
     #     managed = True
     #     #db_table = 'userinfo'
