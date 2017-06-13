@@ -72,9 +72,6 @@ class UserInfo(models.Model):
         if self.problem_try==0:
             return 0
         return int(self.problem_ac/self.problem_try*100)
-    def rank(self):
-        #return self.problems_ac.count()
-        return self.problems_ac.count()
     # class Meta:
     #     managed = True
     #     #db_table = 'userinfo'
@@ -101,6 +98,7 @@ class Contest(models.Model):
     private = models.BooleanField(default=False)
     password = models.CharField(max_length=256,blank=True)
     accounts = models.ManyToManyField(UserInfo, related_name="accessable_contests",blank=True)
+    clarification=models.TextField()
 #    users = models.ManyToManyField(User, related_name="contests")
 
     def __str__(self):

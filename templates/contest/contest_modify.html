@@ -104,7 +104,8 @@
                     "title" : $('input[name="title"]').val(),
                     "begin" : $('input[name="begin"]').val(),
                     "duration" : $('input[name="duration"]').val(),
-                    "problems" : problems
+                    "problems" : problems,
+                    "clarification" : $('textarea[name="clarification"]').val()
                 }
                 $.ajax({
                     type : "post",
@@ -201,6 +202,13 @@
                     </div>
                 </div>
                 
+                <hr>
+                <div class = "row">
+                    <label class="col-sm-2 control-label">Clarification:</label>
+                    <div class="col-sm-5">
+                    <textarea name="clarification" cols=40 rows=4 >{{contest.clarification}}</textarea>
+                    </div>
+                </div>
             </form>
             
         </div>

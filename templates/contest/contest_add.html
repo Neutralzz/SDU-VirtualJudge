@@ -103,7 +103,8 @@
                     "title" : $('input[name="title"]').val(),
                     "begin" : $('input[name="begin"]').val(),
                     "duration" : $('input[name="duration"]').val(),
-                    "problems" : problems
+                    "problems" : problems,
+                    "clarification" : $('textarea[name="clarification"]').val()
                 }
                 $.ajax({
                     type : "post",
@@ -191,9 +192,15 @@
                     <input type="text" class="form-control" placeholder="hh:mm eg: 5:00" style="width:200px;" name="duration">
                     </div>
                 </div>
-                
+
+                <hr>
+                <div class = "row">
+                    <label class="col-sm-2 control-label">Clarification:</label>
+                    <div class="col-sm-5">
+                    <textarea name="clarification" cols=40 rows=4 ></textarea>
+                    </div>
+                </div>
             </form>
-            
         </div>
         <div style="width:45%;float: left;padding-left: 20px"><!-- right panel -->
             <div >

@@ -389,6 +389,7 @@ def contest_add_process(req):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
+    clarification = req.POST.get("clarification")
 
     if openness=='private' and password=='':
         return HttpResponse('password error')
@@ -437,7 +438,8 @@ def contest_add_process(req):
             continue
 
 
-    cont = Contest(uid=req.user,name=title,typec=typec,start_time=begin,duration_time=duration, private=(openness=='private'), password=password)
+    cont = Contest(uid=req.user,name=title,typec=typec,start_time=begin,duration_time=duration, private=(openness=='private'),
+     password=password, clarification=clarification)
     cont.save()
     cont.accounts.add(req.user.info)
     cont.save()
@@ -464,6 +466,8 @@ def contest_modify_process(req,cid):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
+    clarification=req.POST.get("clarification")
+    #print("Clar ",clarification)
 
     if openness=='private' and password=='':
         return HttpResponse('password error')
@@ -518,6 +522,7 @@ def contest_modify_process(req,cid):
     cont.duration_time = duration
     cont.private =(openness=='private')
     cont.password=password
+    cont.clarification=clarification
     cont.save()
     cont.problems.clear()
     cont.save()
