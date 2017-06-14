@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^problem/$', views.problem),
     url(r'^problem/([0-9]+)/$', views.problem_detail),
     url(r'^problem/([0-9]+)/submit/$', views.problem_submit),
+    url(r'^problem/([0-9]+)/discuss/$', views.problem_discuss),
     url(r'^status/$', views.status),
     url(r'^show_source/$', views.show_source),
     

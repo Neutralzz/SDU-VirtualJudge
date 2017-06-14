@@ -1,0 +1,35 @@
+{% extends "problem/problem_base.html" %}
+
+{% block script %}
+$(document).ready(function(){
+    $("#selsrc").click(function(){
+        $("#srcarea").prop("disabled",false);
+        $("#fuparea").prop("disabled",true);
+    });
+    $("#selfup").click(function(){
+        $("#srcarea").prop("disabled",true);
+        $("#fuparea").prop("disabled",false);
+    });
+});
+
+{% endblock %}
+
+
+{% block detail %}
+<form id="chatForm" class="form-horizontal panel container" method="GET" action=".">
+	{% for msg in list %}
+	        <h4 class="list-group-item-text">{{msg.uid}} : {{msg.content}}</h4>
+	        <p class="list-group-item-text">{{msg.time}}</p>
+	        <br>
+	{% endfor %}
+</form>
+
+<form class="form-horizontal container-fluid" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea id="srcarea" name="content" class="form-control" maxlength="256" rows="5"></textarea>
+    </div>
+    <center><button type="submit" class="btn btn-primary">Discuss</button></center>
+</form>
+
+{% endblock %}

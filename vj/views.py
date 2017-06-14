@@ -197,6 +197,16 @@ def problem_detail(req, proid):
 #    smp = TestCase.objects.filter(pid__exact=pid).filter(sample__exact=True)
 #    return ren2res("problem/problem_detail.html", req, {'problem': problem, 'sample': smp})
 
+@login_required
+def problem_discuss(req,proid):
+    #pid=req.GET.get("proid")
+    pro = Problem.objects.get(proid=proid)
+    if req.method == 'GET' :
+         return render(req,'problem/problem_discuss.html',{'list': Discuss.objects.filter(proid=proid)})
+    elif req.method == 'POST' :
+        discuss = Discuss(uid = req.user,proid=pro, content = req.POST.get('content'), time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+        discuss.save()
+        return HttpResponseRedirect("/status/")
 
 @login_required
 def problem_submit(req, proid):
@@ -389,7 +399,7 @@ def contest_add_process(req):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
-    clarification = req.POST.get("clarification")
+    description = req.POST.get("description")
 
     if openness=='private' and password=='':
         return HttpResponse('password error')
@@ -439,7 +449,7 @@ def contest_add_process(req):
 
 
     cont = Contest(uid=req.user,name=title,typec=typec,start_time=begin,duration_time=duration, private=(openness=='private'),
-     password=password, clarification=clarification)
+     password=password, description=description)
     cont.save()
     cont.accounts.add(req.user.info)
     cont.save()
@@ -466,7 +476,7 @@ def contest_modify_process(req,cid):
     begin = req.POST.get("begin")
     duration = req.POST.get("duration")
     problems = req.POST.get("problems")
-    clarification=req.POST.get("clarification")
+    description=req.POST.get("description")
     #print("Clar ",clarification)
 
     if openness=='private' and password=='':
@@ -522,7 +532,7 @@ def contest_modify_process(req,cid):
     cont.duration_time = duration
     cont.private =(openness=='private')
     cont.password=password
-    cont.clarification=clarification
+    cont.description=description
     cont.save()
     cont.problems.clear()
     cont.save()
@@ -792,3 +802,5 @@ def rank(req):
 
 def about(req):
     return ren2res("about.html", req, {})
+
+

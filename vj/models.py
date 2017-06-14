@@ -52,6 +52,20 @@ class Problem(models.Model):
     #     managed = True
     #     #db_table = 'problem'
 
+
+
+class Discuss(models.Model):
+    id=models.AutoField(primary_key=True)
+    uid = models.ForeignKey(User)
+    content = models.TextField()
+    time=models.DateTimeField()
+    proid=models.ForeignKey(Problem)
+
+    def get_proids():
+        query=Discuss.objects.all()
+        return query.count()
+
+
 class UserInfo(models.Model):
     id = models.OneToOneField(User, primary_key=True, related_name='info')
     school = models.CharField(max_length=50, blank=True)
@@ -98,7 +112,7 @@ class Contest(models.Model):
     private = models.BooleanField(default=False)
     password = models.CharField(max_length=256,blank=True)
     accounts = models.ManyToManyField(UserInfo, related_name="accessable_contests",blank=True)
-    clarification=models.TextField()
+    description=models.TextField()
 #    users = models.ManyToManyField(User, related_name="contests")
 
     def __str__(self):
