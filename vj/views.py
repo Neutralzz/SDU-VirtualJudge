@@ -693,6 +693,26 @@ def contest_time(req, cid):#don't need change
         print(timeData)
         return JsonResponse(timeData)
 
+@login_required
+def contest_clarification(req,cid):
+    #pid=req.GET.get("proid")
+    #pro = Problem.objects.get(proid=proid)
+    contest = Contest.objects.get(id = cid)
+    isAuthor = req.user == contest.uid
+    print('OUT POST clar', req.POST.get('clar')) 
+    print('OUT GET clar', req.GET.get('clar')) 
+    if req.method == 'GET' :
+        print('GET count', Contest_clarification.objects.filter(contest=contest).count())
+        return render(req,'contest/contest_clar.html',{'list': Contest_clarification.objects.filter(contest=contest), 'isAuthor':isAuthor})
+    elif req.method == 'POST' :
+        print('POST count', Contest_clarification.objects.filter(contest=contest).count())
+        print('POST clar', req.POST.get('clar')) 
+        if isAuthor:
+            contest_clarification = Contest_clarification(contest = contest, clarification = req.POST.get('clar'),
+                time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+            contest_clarification.save()
+        return render(req,'contest/contest_clar.html',{'contest':contest, 'list': Contest_clarification.objects.filter(contest=contest), 'isAuthor':isAuthor })
+
 def dateToInt(date, field):
      if field == 0:
          return date.days * 24 * 60 + date.seconds // 60

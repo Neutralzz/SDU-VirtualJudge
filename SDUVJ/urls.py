@@ -52,6 +52,7 @@ urlpatterns = [
     url(r'^contest/([0-9]+)/submit/$', views.contest_submit),
     url(r'^contest/([0-9]+)/time/$', views.contest_time),
     url(r'^contest/([0-9]+)/rank/$', views.contest_rank),
+    url(r'^contest/([0-9]+)/clarification/$', views.contest_clarification),
     url(r'^rank/$', views.rank),
     url(r'^about/$', views.about),
 ]

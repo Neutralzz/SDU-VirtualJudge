@@ -135,6 +135,11 @@ class Contest(models.Model):
             cnt += 1
         return lst
 
+class Contest_clarification(models.Model):
+    id=models.AutoField(primary_key=True)
+    contest = models.ForeignKey(Contest)
+    clarification = models.TextField()
+    time=models.DateTimeField()
 
 class Status(models.Model):
     runid = models.AutoField(primary_key=True)

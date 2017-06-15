@@ -131,7 +131,7 @@ function getServerTime(){
                 <a data-toggle="tab" href="#panel-rank" id="get_rank">Rank</a>
             </li>
             <li>
-                <a data-toggle="tab" href="#panel-clar" id="get_rank">Clarification</a>
+                <a data-toggle="tab" href="#panel-clar" id="get_clar">Clarification</a>
             </li>
 
         </ul>
@@ -178,6 +178,17 @@ function getServerTime(){
                 url: "/contest/" + contest_id + "/status/",
                 success: function (responseData) {
                     $('#panel-status').html(responseData);
+        //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                }
+            })
+        })
+        $('#get_clar').click(function () {
+            contest_id = {{contest.id}};
+            $.ajax({
+                type: 'post',
+                url: "/contest/" + contest_id + "/clarification/",
+                success: function (responseData) {
+                    $('#panel-clar').html(responseData);
         //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
             })

@@ -1,3 +1,18 @@
-<div class="text-center">
-    <h1 class="text-success">Clarification : {{contest.clarification}}</h1>
-</div>
+{% block detail %}
+<form id="chatForm" class="form-horizontal panel container" method="GET" action=".">
+	{% for clar in list %}
+	        <h4 class="list-group-item-text">{{clar.clarification}}</h4>
+	        <p class="list-group-item-text">{{clar.time}}</p>
+	        <br>
+	{% endfor %}
+</form>
+{% if isAuthor == True %}
+<form class="form-horizontal container-fluid" method="POST" action="/contest/{{contest.id}}/clarification/">
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea name="clar" class="form-control" maxlength="256" rows="5"></textarea>
+    </div>
+    <center><button type="submit" class="btn btn-primary">ADD Clarification</button></center>
+</form>
+{% endif %}
+{% endblock %}
