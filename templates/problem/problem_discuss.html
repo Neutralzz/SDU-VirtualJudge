@@ -16,20 +16,19 @@ $(document).ready(function(){
 
 
 {% block detail %}
-<form id="chatForm" class="form-horizontal panel container" method="GET" action=".">
+<form id="chatForm" class="form-horizontal panel container" method="GET" action="." style="width:98%">
+    <hr>
 	{% for msg in list %}
-	        <h4 class="list-group-item-text">{{msg.uid}} : {{msg.content}}</h4>
-	        <p class="list-group-item-text">{{msg.time}}</p>
-	        <br>
+	        <strong class="text-primary">{{msg.uid}} :</strong><small class="text-muted">post on {{msg.time}}</small>
+            <p style="white-space:normal;word-break:break-all;word-wrap:break-word;">{{msg.content}}</p>
+	        <hr>
 	{% endfor %}
 </form>
-
-<form class="form-horizontal container-fluid" method="POST" enctype="multipart/form-data">
+<form class="form-horizontal panel container" method="POST" enctype="multipart/form-data" style="width:95%">
     {% csrf_token %}
     <div class="form-group">
-        <textarea id="srcarea" name="content" class="form-control" maxlength="256" rows="5"></textarea>
+        <textarea placeholder="please don't over 1024 characters." id="srcarea" name="content" class="form-control" maxlength="1024" rows="5"></textarea>
     </div>
     <center><button type="submit" class="btn btn-primary">Discuss</button></center>
 </form>
-
 {% endblock %}

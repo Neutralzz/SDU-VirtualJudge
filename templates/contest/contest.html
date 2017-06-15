@@ -216,6 +216,23 @@ function getServerTime(){
                 )
             }
         })
+        /*
+        $('#post_char_button').click(function(){
+            var clar = $("#clar_content").val()
+            if(clar == ""){
+                alert("New Clarification is null!")
+            }else{
+                $.ajax({
+                    type : "post",
+                    url : "/contest/"+{{contest.id}}+"/clarification/",
+                    data : {"clar":clar},
+                    success : function(responseData){
+                        $('#panel-clar').html(responseData)
+                    }
+                })
+            }
+        })
+        */
             //$('#overview').tab('show');
         })
     </script>

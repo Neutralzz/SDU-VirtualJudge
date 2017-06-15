@@ -18,6 +18,7 @@ threadLog = open('log/thread.log','a+')
 baseURL = 'http://127.0.0.1:6800/'
 schURL = baseURL + 'schedule.json'
 jobsURL = baseURL + 'listjobs.json?project=vjspider'
+endStatus = ['Accept','Wrong','Error','Exceed','Fault','Exit','Call']
 
 class JudgerThread(threading.Thread):
     def __init__(self,threadID,vjRunID,OJ,Prob,Code,Lang):
@@ -31,7 +32,7 @@ class JudgerThread(threading.Thread):
 
 
     def run(self):
-        global account,threadLog,schURL,jobsURL
+        global account,threadLog,schURL,jobsURL,endStatus
         acc = ""
         while acc == "":
             if mutex.acquire():
@@ -66,19 +67,30 @@ class JudgerThread(threading.Thread):
             submitMutex.release()
 
         if sub:
-            time.sleep(1)
-            dictdata = {"project":"vjspider","spider":spider,"vj_run_id":self.vjRunID,"user":acc}
-            r = requests.post(schURL,data = dictdata)
-            jobID = json.loads(r.text)['jobid']        
             while True:
-                fjobs = json.loads((requests.get(jobsURL)).text)['finished']
+                time.sleep(1)
+                dictdata = {"project":"vjspider","spider":spider,"vj_run_id":self.vjRunID,"user":acc}
+                r = requests.post(schURL,data = dictdata)
+                jobID = json.loads(r.text)['jobid']        
+                while True:
+                    fjobs = json.loads((requests.get(jobsURL)).text)['finished']
+                    flag = False
+                    for fjob in fjobs:
+                        if fjob['id'] == jobID :
+                            flag = True
+                    if flag:
+                        break
+                    time.sleep(1)
+
                 flag = False
-                for fjob in fjobs:
-                    if fjob['id'] == jobID :
+                cs = Status.objects.get(runid=vjRunID).result
+                for st in self.endStatus:
+                    if st in cs:
                         flag = True
+                        break
                 if flag:
                     break
-                time.sleep(1)
+                
         else:
             dictdata = {"project":"vjspider","spider":spider,"vj_run_id":self.vjRunID,"submit":"False"}
             r = requests.post(schURL,data = dictdata)

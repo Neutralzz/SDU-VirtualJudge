@@ -29,11 +29,25 @@
                 {% endif%}
                 <th>Problem {{ chr }}</th>
                 <th><a href="#" onclick="get_problem({{ problem.proid }})">{{ problem.title }}</a></th>
+                {% if contest.typec == 'custom' %}
                 <th>{{ score }}</th>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% if contest.description %}
+        {% if contest.description != "" %}
+            <center>
+                <div class = "row" style="width:60%">
+                    <label class="col-sm-3 control-label">Description:</label>
+                    <p class="col-sm-8 control-label" style="white-space:normal;word-break:break-all;word-wrap:break-word;text-align: left;">
+                        {{ contest.description }}
+                    </p>
+                </div>
+            </center>
+        {% endif %}
+    {% endif %}
 </div>
 {% endif %}
 {% if err and err == "You do not have access to this contest."%}

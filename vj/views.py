@@ -202,11 +202,11 @@ def problem_discuss(req,proid):
     #pid=req.GET.get("proid")
     pro = Problem.objects.get(proid=proid)
     if req.method == 'GET' :
-         return render(req,'problem/problem_discuss.html',{'list': Discuss.objects.filter(proid=proid)})
+         return render(req,'problem/problem_discuss.html',{'problem':pro,'list': Discuss.objects.filter(proid=proid)})
     elif req.method == 'POST' :
         discuss = Discuss(uid = req.user,proid=pro, content = req.POST.get('content'), time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
         discuss.save()
-        return HttpResponseRedirect("/status/")
+        return HttpResponseRedirect("/problem/%s/discuss/"%proid)
 
 @login_required
 def problem_submit(req, proid):
@@ -592,26 +592,29 @@ def contest_get_problem(req, cid):
         # return HttpResponse(content_html)
         return render(req,'contest/contest_problem.html',{'problem': problem, 'user' : req.user})
 
+def get_contest_status_list(req,cid,pg):
+    contest = Contest.objects.get(id=cid)
+    t = loader.get_template('contest/contest_status.html')
+    status_list = Status.objects.filter(cid=cid).order_by('-runid')
+    if contest.private:
+        if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
+            status_list = []
+    max_cnt = status_list.count() // 20 + 1
+    start = max(pg - PAGE_NUMBER_EVERY_PAGE, 1)
+    end = min(pg + PAGE_NUMBER_EVERY_PAGE, max_cnt)
+
+    lst = status_list[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
+    return lst,start,end
+
 @login_required
 def contest_status(req, cid):#has understood
     if req.is_ajax():
-        contest = Contest.objects.get(id=cid)
-        t = loader.get_template('contest/contest_status.html')
-        status_list = Status.objects.filter(cid=cid).order_by('-runid')#need change
-        if contest.private:
-            if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
-                status_list = []
         pg = req.GET.get('pg')
         if not pg:
             pg = 1
         pg = int(pg)
-
-        max_cnt = status_list.count() // 20 + 1
-        start = max(pg - PAGE_NUMBER_EVERY_PAGE, 1)
-        end = min(pg + PAGE_NUMBER_EVERY_PAGE, max_cnt)
-
-        lst = status_list[(pg - 1) * LIST_NUMBER_EVERY_PAGE:pg * LIST_NUMBER_EVERY_PAGE]
-
+        lst,start,end = get_contest_status_list(req,cid,pg)
+        
         # content_html = t.render(Context({'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user}))
         # return HttpResponse(content_html)
         return render(req,'contest/contest_status.html',{'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user})
@@ -659,7 +662,8 @@ def contest_submit(req, cid):
 
         status.save()
     if not finish:
-        pass
+        lst,start,end = get_contest_status_list(req,cid,1)
+        return render(req,'contest/contest_status.html',{'status_list': lst, 'page': range(start, end + 1), 'contest_id': cid, 'user': req.user})
         #return HttpResponseRedirect("/contest/%d/"%int(cid))
         """
         status_list = Status.objects.filter(cid=cid).order_by('-runid')
@@ -701,17 +705,17 @@ def contest_clarification(req,cid):
     isAuthor = req.user == contest.uid
     print('OUT POST clar', req.POST.get('clar')) 
     print('OUT GET clar', req.GET.get('clar')) 
-    if req.method == 'GET' :
-        print('GET count', Contest_clarification.objects.filter(contest=contest).count())
-        return render(req,'contest/contest_clar.html',{'list': Contest_clarification.objects.filter(contest=contest), 'isAuthor':isAuthor})
-    elif req.method == 'POST' :
-        print('POST count', Contest_clarification.objects.filter(contest=contest).count())
-        print('POST clar', req.POST.get('clar')) 
+    if not req.POST.get('clar') :
+        #print('GET count', Contest_clarification.objects.filter(contest=contest).count())
+        return render(req,'contest/contest_clar.html',{'contest':contest,'list': Contest_clarification.objects.filter(contest=contest).order_by('-time'), 'isAuthor':isAuthor})
+    else :
+        #print('POST count', Contest_clarification.objects.filter(contest=contest).count())
+        #print('POST clar', req.POST.get('clar')) 
         if isAuthor:
             contest_clarification = Contest_clarification(contest = contest, clarification = req.POST.get('clar'),
                 time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
             contest_clarification.save()
-        return render(req,'contest/contest_clar.html',{'contest':contest, 'list': Contest_clarification.objects.filter(contest=contest), 'isAuthor':isAuthor })
+        return render(req,'contest/contest_clar.html',{'contest':contest, 'list': Contest_clarification.objects.filter(contest=contest).order_by('-time'), 'isAuthor':isAuthor })
 
 def dateToInt(date, field):
      if field == 0:
@@ -725,7 +729,7 @@ def contest_rank(req, cid):
         contest = Contest.objects.get(id = cid)
         if contest.private:
             if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
-                return JsonResponse("{}")
+                return JsonResponse(json.loads("{}"))
         rank_cache = contest.rank
         # print("rank_cache:")
         # print(rank_cache)
@@ -751,11 +755,12 @@ def contest_rank(req, cid):
             for item in problem_list:
                 statsinfo[item[2].title] = {"pos" : pos}
                 pos += 1
-
+        print("Contest last id:%d"%(int(contest.last_submit_id)))
         for item in status_list:
             if item.user.is_staff :
                 continue
             name = item.user.username
+            print(item.runid)
             contest.last_submit_id = max(contest.last_submit_id, item.runid)
             if name not in rank_dict.keys():
                 rank_dict[name] = {"name" : name, "solved":0, "penalty":0, "probs" : [{"failNum" : 0, "acNum" : 0, "acTime" : 0} for i in range(length)]}
@@ -775,6 +780,7 @@ def contest_rank(req, cid):
                     rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.time - contest.start_time, 1)
                     #rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
                     #rank_dict[name]["solved"] += 1
+                    #print(contest.typec)
                     if contest.typec == 'icpc':
                         rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
                         rank_dict[name]["solved"] += 1

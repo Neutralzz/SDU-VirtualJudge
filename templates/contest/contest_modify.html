@@ -145,7 +145,7 @@
                 </div>
                 <hr>
                 <div class = "row">
-                    <label class="col-sm-2 control-label">Type:</label>
+                    <label class="col-sm-2 control-label">Type:<font color="red">*</font></label>
                     <div class="col-md-offset-3">
                     <label>
                         <div class="radio">
@@ -159,7 +159,7 @@
                 </div>
                 <hr>
                 <div class = "row" id = "contest_open">
-                    <label class="col-sm-2 control-label">Openness:</label>
+                    <label class="col-sm-2 control-label">Openness:<font color="red">*</font></label>
                     <div class="col-md-offset-3">
                     <label>
                         <div class="radio">
@@ -182,21 +182,21 @@
 
                 <hr>
                 <div class = "row">
-                    <label class="col-sm-2 control-label">Title:</label>
+                    <label class="col-sm-2 control-label">Title:<font color="red">*</font></label>
                     <div class="col-sm-5">
                     <input type="text" class="form-control" style="width:200px;" name="title"  value="{{contest.name}}">
                     </div>
                 </div>
                 <hr>
                 <div class = "row">
-                    <label class="col-sm-2 control-label">BeginTime:</label>
+                    <label class="col-sm-2 control-label">BeginTime:<font color="red">*</font></label>
                     <div class="col-sm-5">
                     <input type="text" class="form-control" placeholder="yyyy-MM-dd hh:mm:ss" style="width:200px;" name="begin" value = "{{contest.start_time | date:"Y-m-d H:i:s"}}">
                     </div>
                 </div>
                 <hr>
                 <div class = "row">
-                    <label class="col-sm-2 control-label">Duration:</label>
+                    <label class="col-sm-2 control-label">Duration:<font color="red">*</font></label>
                     <div class="col-sm-5">
                     <input type="text" class="form-control" placeholder="hh:mm eg: 5:00" style="width:200px;" name="duration"}}">
                     </div>
@@ -205,8 +205,8 @@
                 <hr>
                 <div class = "row">
                     <label class="col-sm-2 control-label">Description:</label>
-                    <div class="col-sm-5">
-                    <textarea name="description" cols=40 rows=4 >{{contest.description}}</textarea>
+                    <div class="col-sm-8">
+                    <textarea name="description" class="form-control" maxlength="256" cols=40 rows=4 >{{contest.description}}</textarea>
                     </div>
                 </div>
             </form>
