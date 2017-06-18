@@ -148,7 +148,7 @@ class FzuProblemSpider(Spider):
         ]
 
     def parse(self, response):
-        html = (response.body).decode('gbk','ignore')
+        html = (response.body).decode('utf-8','ignore')
         sel = Selector(text=html)
 
         item = ProblemItem()
