@@ -5,10 +5,20 @@
 {% block navbar %}{% include "include/navbar-contest.html" %}{% endblock %}
 
 {% block otherbutton %}
+    <button class="btn btn-default" type="button" onclick="form_filter()">Filter</button>
+    <button class="btn btn-default" type="button" onclick="form_reset()">Reset</button>
     <button class="btn btn-primary" type="button" onclick="add_contest()">Add&nbsp;Contest</button>
     <script type="text/javascript">
         function add_contest(){
             window.location.href = "/contest/addcontest/"
+        }
+        function form_filter(){
+            $("input[type=submit]").trigger("click");
+        }
+        function form_reset(){
+            $("#name").val("")
+            $("#username").val("")
+            $("input[type=submit]").trigger("click");   
         }
     </script>
 {% endblock %}
