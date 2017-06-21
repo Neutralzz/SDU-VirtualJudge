@@ -149,10 +149,10 @@
                     <div class="col-md-offset-3">
                     <label>
                         <div class="radio">
-                        <input type="radio" id = "hide_score" name="type" value="icpc" {% if contest.typec == "icpc" %}checked="checked"{% endif %}/> Standard ICPC
+                        <input type="radio" id = "hide_score" disabled="disabled" name="type" value="icpc" {% if contest.typec == "icpc" %}checked="checked"{% endif %}/> Standard ICPC
                         </div>
                         <div class="radio" >
-                        <input type="radio" id = "show_score"  name="type" value="custom" {% if contest.typec == "custom" %}checked="checked"{% endif %}/>Customized
+                        <input type="radio" id = "show_score" disabled="disabled" name="type" value="custom" {% if contest.typec == "custom" %}checked="checked"{% endif %}/>Customized
                         </div>
                     </label>
                     </div>

@@ -317,24 +317,10 @@ def show_source(req):
         raise Http404
     else:
         status = query[0]
-        code = base64.b64decode(bytes(status.code, 'utf-8'))
-        '''
-        err = ""
-        try:
-            f = open('/home/sduacm/OnlineJudge/JudgeFiles/result/' + str(submit.id), 'r')
-            err = f.read()
-            f.close()
-        except IOError:
-            pass
-        err = err.replace("/tmp","...")
-        err = err.replace("/sduoj/source","")
-        print('error:')
-        print(err)
-        if err == '':
-            err = 'Successful'
-        '''
-        return ren2res('show_source.html', req, {'status': status, 'code': code, 'lang': LANG_DICT[status.lang]})
-
+        f = open(project_path+'/codes/' + str(status.source_code), 'r')
+        code = f.read()
+        DISP_LANG_DICT = {0: 'cpp', 1: 'c', 2: 'cpp', 3: 'c', 4: 'pascal', 5: 'java', 6: 'C#', 7: 'python'}
+        return ren2res('show_source.html', req, {'status': status, 'code': code, 'lang': DISP_LANG_DICT[status.lang]})
 #new add ,need change
 
 def contest(req):
@@ -533,6 +519,8 @@ def contest_modify_process(req,cid):
     cont.private =(openness=='private')
     cont.password=password
     cont.description=description
+    cont.last_submit_id = 0
+    cont.rank=json.loads("{}")
     cont.save()
     cont.problems.clear()
     cont.save()
@@ -725,77 +713,81 @@ def dateToInt(date, field):
 
 @login_required
 def contest_rank(req, cid):
-    if req.is_ajax():
-        contest = Contest.objects.get(id = cid)
-        if contest.private:
-            if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
-                return JsonResponse(json.loads("{}"))
-        rank_cache = contest.rank
-        # print("rank_cache:")
-        # print(rank_cache)
-        status_list = Status.objects.filter(cid = cid).filter(runid__gt = contest.last_submit_id).order_by("time")
-        # print("status_list")
-        # print(status_list)
-        rank_dict = json.loads(rank_cache)
-        # print("rank_dict")
-        # print(rank_dict)
-        statsinfo = {}
-        pos = 0
-        problem_list = contest.get_problem_list()
-        length = len(problem_list)
+    try:
+        if req.is_ajax():
+            contest = Contest.objects.get(id = cid)
+            if contest.private:
+                if req.user.is_superuser==False and req.user.vj_info not in contest.accounts.all() :
+                    return JsonResponse(json.loads("{}"))
+            rank_cache = contest.rank
+            # print("rank_cache:")
+            # print(rank_cache)
+            status_list = Status.objects.filter(cid = cid).filter(runid__gt = contest.last_submit_id).order_by("time")
+            # print("status_list")
+            # print(status_list)
+            rank_dict = json.loads(rank_cache)
+            # print("rank_dict")
+            # print(rank_dict)
+            statsinfo = {}
+            pos = 0
+            problem_list = contest.get_problem_list()
+            length = len(problem_list)
+            print(problem_list)
 
-        
-        if contest.last_submit_id==0:
-            rank_dict["statsinfo"] = [{} for i in range(length)]
-            for item in problem_list:
-                rank_dict["statsinfo"][pos] = {"probid" : chr(pos + 65) ,"acNum" : 0, "tryNum" : 0}
-                statsinfo[item[2].title] = {"pos" : pos}
-                pos += 1
-        else:
-            for item in problem_list:
-                statsinfo[item[2].title] = {"pos" : pos}
-                pos += 1
-        print("Contest last id:%d"%(int(contest.last_submit_id)))
-        for item in status_list:
-            if item.user.is_staff :
-                continue
-            name = item.user.username
-            print(item.runid)
-            contest.last_submit_id = max(contest.last_submit_id, item.runid)
-            if name not in rank_dict.keys():
-                rank_dict[name] = {"name" : name, "solved":0, "penalty":0, "probs" : [{"failNum" : 0, "acNum" : 0, "acTime" : 0} for i in range(length)]}
+            
+            if contest.last_submit_id==0:
+                rank_dict["statsinfo"] = [{} for i in range(length)]
+                for item in problem_list:
+                    rank_dict["statsinfo"][pos] = {"probid" : chr(pos + 65) ,"acNum" : 0, "tryNum" : 0}
+                    statsinfo[item[2].title] = {"pos" : pos}
+                    pos += 1
+            else:
+                for item in problem_list:
+                    statsinfo[item[2].title] = {"pos" : pos}
+                    pos += 1
+            print("Contest last id:%d"%(int(contest.last_submit_id)))
+            for item in status_list:
+                if item.user.is_staff :
+                    continue
+                name = item.user.username
+                print(item.runid)
+                contest.last_submit_id = max(contest.last_submit_id, item.runid)
+                if name not in rank_dict.keys():
+                    rank_dict[name] = {"name" : name, "solved":0, "penalty":0, "probs" : [{"failNum" : 0, "acNum" : 0, "acTime" : 0} for i in range(length)]}
+                if item.pro.title not in statsinfo:
+                    continue
+                pos = statsinfo[item.pro.title]["pos"]
 
-            pos = statsinfo[item.pro.title]["pos"]
+                if 'ing' in item.result: #Waiting
+                    break
+                if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES': #Accepted
+                    rank_dict["statsinfo"][pos]["acNum"] += 1
+                rank_dict["statsinfo"][pos]["tryNum"] += 1
 
-            if item.result == 'Waiting': #Waiting
-                break
-
-            if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES': #Accepted
-                rank_dict["statsinfo"][pos]["acNum"] += 1
-            rank_dict["statsinfo"][pos]["tryNum"] += 1
-
-            if rank_dict[name]["probs"][pos]["acNum"] == 0:
-                if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES':
-                    rank_dict[name]["probs"][pos]["acNum"] += 1
-                    rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.time - contest.start_time, 1)
-                    #rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
-                    #rank_dict[name]["solved"] += 1
-                    #print(contest.typec)
-                    if contest.typec == 'icpc':
-                        rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
-                        rank_dict[name]["solved"] += 1
-                    else:
-                        rank_dict[name]["penalty"] += dateToInt(item.time - contest.start_time, 0)
-                        cont_pro = Contest_problems.objects.get(contest=contest,problem=item.pro)
-                        rank_dict[name]["solved"] += cont_pro.score
-                    
-                else:
-                    rank_dict[name]["probs"][pos]["failNum"] += 1
-        contest.rank = json.dumps(rank_dict)
-        # print("contest.rank")
-        # print(contest.rank)
-        contest.save()
-        return JsonResponse(rank_dict)
+                if rank_dict[name]["probs"][pos]["acNum"] == 0:
+                    if item.result == 'Accepted' or item.result == 'Accept' or item.result == 'Yes' or item.result == 'YES':
+                        rank_dict[name]["probs"][pos]["acNum"] += 1
+                        rank_dict[name]["probs"][pos]["acTime"] = dateToInt(item.time - contest.start_time, 1)
+                        #rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
+                        #rank_dict[name]["solved"] += 1
+                        #print(contest.typec)
+                        if contest.typec == 'icpc':
+                            rank_dict[name]["penalty"] += 20 * rank_dict[name]["probs"][pos]["failNum"] + dateToInt(item.time - contest.start_time, 0)
+                            rank_dict[name]["solved"] += 1
+                        else:
+                            rank_dict[name]["penalty"] += dateToInt(item.time - contest.start_time, 0)
+                            cont_pro = Contest_problems.objects.get(contest=contest,problem=item.pro)
+                            rank_dict[name]["solved"] += cont_pro.score
+                    elif item.result != 'Submit Failed':
+                        rank_dict[name]["probs"][pos]["failNum"] += 1
+            contest.rank = json.dumps(rank_dict)
+            print("contest.rank")
+            print(contest.rank)
+            contest.save()
+    except Exception as e:
+        print("Error at contest rank:")
+        print(e)
+    return JsonResponse(rank_dict)
 
 def page_not_found(req):
     return ren2res("404.html", req, {})

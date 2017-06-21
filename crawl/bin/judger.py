@@ -83,8 +83,8 @@ class JudgerThread(threading.Thread):
                     time.sleep(1)
 
                 flag = False
-                cs = Status.objects.get(runid=vjRunID).result
-                for st in self.endStatus:
+                cs = Status.objects.get(runid=self.vjRunID).result
+                for st in endStatus:
                     if st in cs:
                         flag = True
                         break
