@@ -713,11 +713,11 @@ def dateToInt(date, field):
 
 @login_required
 def contest_rank(req, cid):
+    contest = Contest.objects.get(id = cid)
     try:
         if req.is_ajax():
-            contest = Contest.objects.get(id = cid)
             if contest.private:
-                if req.user.is_superuser==False and req.user.vj_info not in contest.accounts.all() :
+                if req.user.is_superuser==False and req.user.info not in contest.accounts.all() :
                     return JsonResponse(json.loads("{}"))
             rank_cache = contest.rank
             # print("rank_cache:")
@@ -784,10 +784,14 @@ def contest_rank(req, cid):
             print("contest.rank")
             print(contest.rank)
             contest.save()
+            return JsonResponse(rank_dict)
     except Exception as e:
         print("Error at contest rank:")
         print(e)
-    return JsonResponse(rank_dict)
+        contest.last_submit_id = 0
+        contest.rank = json.dumps(json.loads("{}"))
+        contest.save()
+        return JsonResponse(json.loads("{}"))
 
 def page_not_found(req):
     return ren2res("404.html", req, {})
